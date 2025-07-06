@@ -1,252 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Numerical Methods in C</title>
+  <meta charset="UTF-8">
+  <title>Welcome to Prof. A. Haldar's Portal</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f4f4f9;
-      color: #333;
-      margin: 0;
-      padding: 0;
+      background: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
     }
-
-    header {
-      background-color: #007bff;
-      color: #fff;
-      padding: 1em;
+    .container {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
       text-align: center;
     }
-
-    nav ul {
-      list-style-type: none;
-      padding: 0;
-    }
-
-    nav ul li {
-      display: inline;
-      margin: 0 10px;
-    }
-
-    nav ul li a {
-      color: #fff;
-      text-decoration: none;
-      font-size: 18px;
-    }
-
-    .content {
-      padding: 2em;
-      background-color: #fff;
-      margin: 20px auto;
-      max-width: 900px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    footer {
-      background-color: #007bff;
-      color: #fff;
-      text-align: center;
-      padding: 10px;
-    }
-
-    ul li {
-      cursor: pointer;
-      margin: 8px 0;
-      font-size: 18px;
-      color: #007bff;
-      transition: color 0.3s;
-    }
-
-    ul li:hover {
-      color: #0056b3;
-    }
-
-    /* Modal styles */
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0,0,0,0.4);
-      padding-top: 60px;
-    }
-
-    .modal-content {
-      background-color: #fff;
-      margin: 5% auto;
-      padding: 20px;
-      border: 1px solid #888;
-      width: 80%;
-      max-width: 500px;
-    }
-
-    .close {
-      color: #aaa;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-    }
-
-    .close:hover,
-    .close:focus {
-      color: black;
-      text-decoration: none;
+    button {
+      background-color: #007acc;
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      border-radius: 6px;
       cursor: pointer;
     }
-
-    .modal-header {
-      font-size: 24px;
-      font-weight: bold;
-    }
-
-    .modal-body {
-      margin-top: 10px;
-      font-size: 16px;
-    }
-
-    .modal-link a {
-      display: inline-block;
-      margin-top: 10px;
-      text-decoration: none;
-      color: #007bff;
-    }
-
-    .modal-link a:hover {
-      text-decoration: underline;
+    button:hover {
+      background-color: #005fa3;
     }
   </style>
 </head>
 <body>
-
-  <header>
-    <h1>Numerical Analysis in C</h1>
-    
-    <nav>
-      <ul>
-        <li><a href="bisection.html">Bisection Method</a></li>
-        <li><a href="newton.html">Newton-Raphson Method</a></li>
-        <li><a href="secant.html">Secant Method</a></li>
-        <li><a href="gauss.html">Gaussian Elimination</a></li>
-        <li><a href="euler.html">Euler’s Method</a></li>
-        <li><a href="rk.html">Runge-Kutta Method</a></li>
-        <li><a href="simpson.html">Simpson's Rule</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <section class="content">
-    <h2>Introduction</h2>
-    <p>Numerical methods are techniques used to solve mathematical problems that cannot be solved analytically. These methods are widely used in engineering, science, and computer programming, especially when working with large datasets or complicated equations.</p>
-    
-    <h3>Available Methods:</h3>
-    <p>Explore the following methods implemented in the C programming language:</p>
-    <ul>
-      <li onclick="openModal('bisection')">Bisection Method</li>
-      <li onclick="openModal('newton')">Newton-Raphson Method</li>
-      <li onclick="openModal('secant')">Secant Method</li>
-      <li onclick="openModal('gauss')">Gaussian Elimination</li>
-      <li onclick="openModal('euler')">Euler’s Method</li>
-      <li onclick="openModal('rk')">Runge-Kutta Method</li>
-      <li onclick="openModal('simpson')">Simpson's Rule</li>
-    </ul>
-  </section>
-
-  <footer>
-    <p>© 2025 Anup Haldar. All rights reserved. Site personally maintained by the owner.</p>
-  </footer>
-
-  <!-- Modal -->
-  <div id="methodModal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal()">&times;</span>
-      <div id="modal-header" class="modal-header"></div>
-      <div id="modal-body" class="modal-body"></div>
-      <div id="modal-link" class="modal-link"></div>
-    </div>
+  <div class="container">
+    <h1>Welcome Students</h1>
+    <p>Click the button below to access the learning portal.</p>
+    <button onclick="window.location.href='https://sites.google.com/view/your-page-link'">
+      Go to Website
+    </button>
   </div>
-
-  <script>
-    function openModal(method) {
-      var modal = document.getElementById("methodModal");
-      var header = document.getElementById("modal-header");
-      var body = document.getElementById("modal-body");
-      var link = document.getElementById("modal-link");
-
-      let content = {
-        bisection: {
-          title: "Bisection Method",
-          description: "The Bisection Method is a simple root-finding method that repeatedly divides an interval in half and then selects the subinterval in which the root must lie.",
-          learnMore: "numerical.html",     // Updated link
-          cProgram: "bisection.c"
-        },
-        newton: {
-          title: "Newton-Raphson Method",
-          description: "The Newton-Raphson method is a root-finding algorithm that produces successively better approximations to the roots (or zeroes) of a real-valued function.",
-          learnMore: "newton.html",
-          cProgram: "newton.c"
-        },
-        secant: {
-          title: "Secant Method",
-          description: "The Secant Method is an iterative method for finding the root of a function. It is similar to Newton's method but does not require the derivative.",
-          learnMore: "secant.html",
-          cProgram: "secant.c"
-        },
-        gauss: {
-          title: "Gaussian Elimination",
-          description: "Gaussian elimination is an algorithm for solving systems of linear equations. It transforms the system's augmented matrix into a simpler form.",
-          learnMore: "gauss.html",
-          cProgram: "gauss.c"
-        },
-        euler: {
-          title: "Euler’s Method",
-          description: "Euler’s method is a simple, first-order numerical technique for solving ordinary differential equations (ODEs).",
-          learnMore: "euler.html",
-          cProgram: "euler.c"
-        },
-        rk: {
-          title: "Runge-Kutta Method",
-          description: "The Runge-Kutta methods are a family of iterative methods for solving ordinary differential equations. The most common form is the fourth-order Runge-Kutta method.",
-          learnMore: "rk.html",
-          cProgram: "rk.c"
-        },
-        simpson: {
-          title: "Simpson's Rule",
-          description: "Simpson's rule is a method for numerical integration, the numerical approximation of definite integrals.",
-          learnMore: "simpson.html",
-          cProgram: "simpson.c"
-        }
-      };
-
-      if (content[method]) {
-        header.innerHTML = content[method].title;
-        body.innerHTML = content[method].description;
-        link.innerHTML = `
-          <a href="${content[method].learnMore}" target="_blank">Learn More</a><br>
-          <a href="${content[method].cProgram}" target="_blank">Click here for C program</a>
-        `;
-      }
-
-      modal.style.display = "block";
-    }
-
-    function closeModal() {
-      document.getElementById("methodModal").style.display = "none";
-    }
-
-    window.onclick = function(event) {
-      var modal = document.getElementById("methodModal");
-      if (event.target == modal) {
-        modal.style.display = "none";
-      }
-    };
-  </script>
-  
-
 </body>
 </html>
