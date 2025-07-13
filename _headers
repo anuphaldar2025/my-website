@@ -1,0 +1,5 @@
+/index.html
+  Basic-Auth: student:mathportal2025
+
+/secret/*
+  Basic-Auth: admin:letmein123
