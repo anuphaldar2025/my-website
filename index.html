@@ -140,6 +140,14 @@
   </style>
 </head>
 <body>
+  <header>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="resources.html">Resources</a>
+  </nav>
+</header>
+
   <div class="container" role="main" aria-labelledby="welcome-heading">
 
     <img src="Desert.jpg" alt="Photo of Prof. A. Haldar" class="prof-photo" />
@@ -176,6 +184,13 @@
     </div>
 
   </div>
+  <footer style="text-align:center; padding:1rem; font-size:0.9rem;">
+  &copy; <span id="year"></span> Anup Haldar | Dept. of Mathematics
+</footer>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
 
   <script>
     function goToSemester() {
