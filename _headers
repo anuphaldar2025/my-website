@@ -1,5 +1,3 @@
-/index.html
-  Basic-Auth: student:mathportal2025
-
-/secret/*
-  Basic-Auth: admin:letmein123
+/  
+  Basic-Auth: anup mySecretPassword
+  Cache-Control: no-cache
