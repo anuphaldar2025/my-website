@@ -109,7 +109,7 @@
     /* Notice section inside container */
     .notice-box {
       margin-top: 2rem;
-      background-color: #f1f9ff;
+      background-color: #ffff00;
       border: 2px solid #007acc;
       border-radius: 10px;
       padding: 1rem;
@@ -139,7 +139,7 @@
     }
   </style>
 </head>
-<body>
+<body><div>
   <div class="container" role="main" aria-labelledby="welcome-heading">
 
     <img src="Desert.jpg" alt="Photo of Prof. A. Haldar" class="prof-photo" />
@@ -164,7 +164,10 @@
 
     <p id="semester-desc" class="visually-hidden">Use the dropdown menu to select your semester, then click Go to Portal. Or click About Prof. A. Haldar to learn more about the professor.</p>
 <hr width="200px">
-    <!-- Notice Section -->
+    
+
+  </div>
+  <!-- Notice Section -->
     <div class="notice-box" bgcolor="green">
       <h3>🔔 Anoucements</h3>
       <marquee behavior="scroll" direction="up" scrollamount="2" height="100px" onmouseover="this.stop();" onmouseout="this.start();">
@@ -175,8 +178,7 @@
         </ul>
       </marquee>
     </div>
-
-  </div>
+    </div>
 
   <script>
     function goToSemester() {
