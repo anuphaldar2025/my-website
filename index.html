@@ -80,15 +80,6 @@
       box-shadow: 0 6px 14px rgba(0, 95, 163, 0.6);
       outline: none;
     }
-    .about-btn {
-      background-color: #28a745;
-      margin-top: 2rem;
-      box-shadow: 0 4px 10px rgba(40, 167, 69, 0.4);
-    }
-    .about-btn:hover, .about-btn:focus {
-      background-color: #1e7e34;
-      box-shadow: 0 6px 14px rgba(30, 126, 52, 0.6);
-    }
     .prof-photo {
       margin: 0 auto;
       width: 130px;
@@ -106,7 +97,6 @@
       clip: rect(1px,1px,1px,1px);
       white-space: nowrap;
     }
-    /* Notice section inside container */
     .notice-box {
       margin-top: 2rem;
       background-color: #ffff00;
@@ -132,6 +122,19 @@
       text-decoration: none;
       color: #004080;
     }
+    footer {
+      margin-top: 2rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #555;
+    }
+    footer a {
+      color: #007acc;
+      text-decoration: none;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
     @media (max-height: 700px) {
       body {
         align-items: flex-start;
@@ -139,47 +142,50 @@
     }
   </style>
 </head>
-<body><div>
-  <div class="container" role="main" aria-labelledby="welcome-heading">
+<body>
+  <div>
+    <div class="container" role="main" aria-labelledby="welcome-heading">
 
-    <img src="Desert.jpg" alt="Photo of Prof. A. Haldar" class="prof-photo" />
+      <img src="Desert.jpg" alt="Photo of Prof. A. Haldar" class="prof-photo" />
 
-    <h1 id="welcome-heading">Welcome Students</h1>
-    <p>Please select your sem below to access your learning portal.</p>
+      <h1 id="welcome-heading">Welcome Students</h1>
+      <p>Please select your sem below to access your learning portal.</p>
 
-    <label for="semester-select" class="visually-hidden">Select your semester</label>
-    <select id="semester-select" aria-describedby="semester-desc" required>
-      <option value="" disabled selected>-- select sem --</option>
-      <option value="https://sites.google.com/view/prof-haldar/home/sem-1">sem 1</option>
-      <option value="https://sites.google.com/view/prof-haldar/sem-2">sem 2</option>
-      <option value="https://sites.google.com/view/prof-haldar/home/sem-3">sem 3</option>
-      <option value="https://sites.google.com/view/prof-haldar/home/sem-4">sem 4</option>
-      <option value="https://sites.google.com/view/prof-haldar/home/sem-5">sem 5</option>
-      <option value="https://sites.google.com/view/prof-haldar/sem-6">sem 6</option>
-    </select>
+      <label for="semester-select" class="visually-hidden">Select your semester</label>
+      <select id="semester-select" aria-describedby="semester-desc" required>
+        <option value="" disabled selected>-- select sem --</option>
+        <option value="https://sites.google.com/view/prof-haldar/home/sem-1">sem 1</option>
+        <option value="https://sites.google.com/view/prof-haldar/sem-2">sem 2</option>
+        <option value="https://sites.google.com/view/prof-haldar/home/sem-3">sem 3</option>
+        <option value="https://sites.google.com/view/prof-haldar/home/sem-4">sem 4</option>
+        <option value="https://sites.google.com/view/prof-haldar/home/sem-5">sem 5</option>
+        <option value="https://sites.google.com/view/prof-haldar/sem-6">sem 6</option>
+      </select>
 
-    <button type="button" onclick="goToSemester()" aria-describedby="semester-desc">Go to Portal</button>
+      <button type="button" onclick="goToSemester()" aria-describedby="semester-desc">Go to Portal</button>
 
-    <button type="button" class="about-btn" onclick="goToAbout()">About Prof. A. Haldar</button>
+      <p id="semester-desc" class="visually-hidden">Use the dropdown menu to select your semester, then click Go to Portal.</p>
+      <hr width="200px" />
+    </div>
 
-    <p id="semester-desc" class="visually-hidden">Use the dropdown menu to select your semester, then click Go to Portal. Or click About Prof. A. Haldar to learn more about the professor.</p>
-<hr width="200px">
-    
-
-  </div>
-  <!-- Notice Section -->
+    <!-- Notice Section -->
     <div class="notice-box">
-      <center> <h3>Anoucements</h3> </center>
+      <center><h3>Announcements</h3></center>
       <marquee behavior="scroll" direction="up" scrollamount="2" height="200px" onmouseover="this.stop();" onmouseout="this.start();">
         <ul>
-          <li><a href="https://drive.google.com/file/d/1ekbwpo3O2TQah0laF31gMXm6vF0h_-Yk/view" target="_blank"> Routine for Odd Sem</a></li>
-          <li><a href="https://drive.google.com/file/d/1-K5DOTEH6Fj4AGe6gtDEEQFo9wE4nF50/view?usp=drivesdk" target="_blank">Syllabus For Sem 5-6 </a></li>
-          <li> <a href="https://drive.google.com/file/d/1-K5DOTEH6Fj4AGe6gtDEEQFo9wE4nF50/view?usp=drivesdk"> Syllabus For Minor Corses </li>
-      <li> <a href="https://drive.google.com/file/d/1-QCt6cNhH1NW8En5vPgbx6FPXOtCrYJa/view?usp=drivesdk" target="_blank" > Syllabus For Sem 1-4 </li>      
+          <li><a href="https://drive.google.com/file/d/1ekbwpo3O2TQah0laF31gMXm6vF0h_-Yk/view" target="_blank">Routine for Odd Sem</a></li>
+          <li><a href="https://drive.google.com/file/d/1-K5DOTEH6Fj4AGe6gtDEEQFo9wE4nF50/view?usp=drivesdk" target="_blank">Syllabus For Sem 5-6</a></li>
+          <li><a href="https://drive.google.com/file/d/1-K5DOTEH6Fj4AGe6gtDEEQFo9wE4nF50/view?usp=drivesdk" target="_blank">Syllabus For Minor Courses</a></li>
+          <li><a href="https://drive.google.com/file/d/1-QCt6cNhH1NW8En5vPgbx6FPXOtCrYJa/view?usp=drivesdk" target="_blank">Syllabus For Sem 1-4</a></li>
         </ul>
       </marquee>
     </div>
-    </div>
+
+    <!-- Subtle About Link -->
+    <footer>
+      <a href="https://sites.google.com/view/prof-haldar/home_1" target="_blank">About Prof. A. Haldar</a>
+    </footer>
+  </div>
 
   <script>
     function goToSemester() {
@@ -191,10 +197,6 @@
         alert('Please select a sem before proceeding.');
         select.focus();
       }
-    }
-
-    function goToAbout() {
-      window.location.href = 'https://sites.google.com/view/prof-haldar/home_1';
     }
   </script>
 </body>
