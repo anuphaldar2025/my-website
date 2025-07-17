@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Semester 5 Learning Portal</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom, #e3f2fd, #f0f8ff);
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #1976d2;
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+      border-radius: 0 0 20px 20px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 2.2em;
+    }
+
+    .subject {
+      background-color: white;
+      border-left: 8px solid #1976d2;
+      margin: 30px auto;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 800px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .subject h2 {
+      color: #0d47a1;
+    }
+
+    .resources a,
+    .resources button {
+      display: inline-block;
+      margin: 10px 15px 0 0;
+      padding: 10px 18px;
+      background-color: #4caf50;
+      color: white;
+      text-decoration: none;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .resources a:hover,
+    .resources button:hover {
+      background-color: #388e3c;
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+    }
+
+    .modal-content {
+      background-color: #fff;
+      margin: 10% auto;
+      padding: 20px;
+      width: 90%;
+      max-width: 400px;
+      border-radius: 10px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.3);
+    }
+
+    .modal-content h3 {
+      margin-top: 0;
+      color: #1976d2;
+    }
+
+    .modal-content a {
+      display: block;
+      margin: 10px 0;
+      color: #0d47a1;
+      text-decoration: none;
+    }
+
+    .modal-content a:hover {
+      text-decoration: underline;
+    }
+
+    .close {
+      float: right;
+      font-size: 24px;
+      font-weight: bold;
+      color: #888;
+      cursor: pointer;
+    }
+
+    footer {
+      background-color: #003366;
+      color: white;
+      text-align: center;
+      padding: 30px 20px;
+      margin-top: 60px;
+    }
+
+    footer a {
+      color: #ffcc00;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Semester 5 Learning Portal</h1>
+  <p>Access syllabus, notes, and previous year questions</p>
+</header>
+
+<!-- Subject Blocks -->
+<div class="subject">
+  <h2>Numerical Analysis</h2>
+  <div class="resources">
+    <a href="#">📘 Syllabus</a>
+    <a href="#">📄 Notes</a>
+    <button onclick="openModal('modalNA')">📝 PYQ</button>
+  </div>
+</div>
+
+<div class="subject">
+  <h2>C Programming</h2>
+  <div class="resources">
+    <a href="#">📘 Syllabus</a>
+    <a href="#">📄 Notes</a>
+    <button onclick="openModal('modalC')">📝 PYQ</button>
+  </div>
+</div>
+
+<div class="subject">
+  <h2>Geometry</h2>
+  <div class="resources">
+    <a href="#">📘 Syllabus</a>
+    <a href="#">📄 Notes</a>
+    <button onclick="openModal('modalGeo')">📝 PYQ</button>
+  </div>
+</div>
+
+<div class="subject">
+  <h2>Calculus</h2>
+  <div class="resources">
+    <a href="#">📘 Syllabus</a>
+    <a href="#">📄 Notes</a>
+    <button onclick="openModal('modalCalc')">📝 PYQ</button>
+  </div>
+</div>
+
+<!-- PYQ Modals -->
+<div id="modalNA" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('modalNA')">&times;</span>
+    <h3>Numerical Analysis - PYQ</h3>
+    <a href="#">2024</a>
+    <a href="#">2023</a>
+    <a href="#">2022</a>
+    <a href="#">2021</a>
+  </div>
+</div>
+
+<div id="modalC" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('modalC')">&times;</span>
+    <h3>C Programming - PYQ</h3>
+    <a href="#">2024</a>
+    <a href="#">2023</a>
+    <a href="#">2022</a>
+    <a href="#">2021</a>
+  </div>
+</div>
+
+<div id="modalGeo" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('modalGeo')">&times;</span>
+    <h3>Geometry - PYQ</h3>
+    <a href="#">2024</a>
+    <a href="#">2023</a>
+    <a href="#">2022</a>
+    <a href="#">2021</a>
+  </div>
+</div>
+
+<div id="modalCalc" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('modalCalc')">&times;</span>
+    <h3>Calculus - PYQ</h3>
+    <a href="#">2024</a>
+    <a href="#">2023</a>
+    <a href="#">2022</a>
+    <a href="#">2021</a>
+  </div>
+</div>
+
+<script>
+  function openModal(id) {
+    document.getElementById(id).style.display = 'block';
+  }
+  function closeModal(id) {
+    document.getElementById(id).style.display = 'none';
+  }
+
+  window.onclick = function(event) {
+    document.querySelectorAll(".modal").forEach(modal => {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    });
+  };
+</script>
+
+<footer>
+  <p><strong>About Anup Haldar:</strong> Assistant Professor of Mathematics, APC Roy Government College, Siliguri.</p>
+  <p>Visit <a href="https://www.google.com" target="_blank">www.google.com</a> for more information.</p>
+</footer>
+
+</body>
+</html>
