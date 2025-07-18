@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Number Theory Notes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet" />
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0 20px;
+      background-color: #f5f5f5;
+    }
+
+    header {
+      text-align: center;
+      padding: 30px 10px 10px;
+      background-color: #2196f3;
+      color: white;
+      border-bottom: 4px solid #1976d2;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 2em;
+    }
+
+    .toc {
+      margin-top: 30px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .toc h2 {
+      margin-top: 0;
+      color: #444;
+    }
+
+    .toc ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
+
+    .toc li {
+      margin-bottom: 10px;
+    }
+
+    .toc a {
+      text-decoration: none;
+      color: #1565c0;
+      font-weight: bold;
+    }
+
+    .note-section {
+      background: #ffffff;
+      padding: 20px;
+      margin: 30px 0;
+      border-left: 5px solid #4caf50;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .note-section h2 {
+      margin-top: 0;
+    }
+
+    code {
+      background: #eeeeee;
+      padding: 2px 5px;
+      border-radius: 3px;
+      font-family: monospace;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #999;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>📘 Number Theory – Class Notes</h1>
+  </header>
+
+  <div class="toc">
+    <h2>📑 Table of Contents</h2>
+    <ul>
+      <li><a href="#class1">Class 1: Division Algorithm & Primes</a></li>
+      <li><a href="#class2">Class 2: GCD, Euclidean Algorithm</a></li>
+      <!-- Add more class links here -->
+    </ul>
+  </div>
+
+  <div class="note-section" id="class1">
+    <h2>🧮 Class 1: Division Algorithm & Primes</h2>
+    <p>
+      We discussed the Division Algorithm:
+    </p>
+    <p>
+      $$
+      \text{For integers } a, b \text{ (with } b \ne 0), \exists \text{ unique integers } q, r \text{ such that } a = bq + r, \quad 0 \le r < |b|
+      $$
+    </p>
+    <p>
+      Definition of prime numbers:  
+      A number greater than 1 with no positive divisors other than 1 and itself.
+    </p>
+    <p>
+      Exercise:  
+      Prove that if a prime \( p \mid ab \), then \( p \mid a \) or \( p \mid b \).
+    </p>
+  </div>
+
+  <div class="note-section" id="class2">
+    <h2>📏 Class 2: GCD, Euclidean Algorithm</h2>
+    <p>
+      Definition of GCD:  
+      The greatest common divisor of two integers \( a \) and \( b \), not both zero, is the largest positive integer \( d \) such that \( d \mid a \) and \( d \mid b \).
+    </p>
+    <p>
+      Euclidean Algorithm:
+    </p>
+    <p>
+      $$
+      \gcd(a, b) = \gcd(b, r) \text{ where } a = bq + r
+      $$
+      Repeat until remainder is 0.
+    </p>
+  </div>
+
+  <footer>
+    &copy; 2025 Anup Haldar – Department of Mathematics
+  </footer>
+
+</body>
+</html>
