@@ -1,0 +1,1291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Homework Submission Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --secondary: #3f37c9;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --warning: #ff9e00;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --gray-light: #e9ecef;
+            --border-radius: 16px;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 20px 50px rgba(0, 0, 0, 0.12);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            --gradient-success: linear-gradient(135deg, var(--success) 0%, #2ecc71 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, 'SF Pro Display', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--dark);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 0 15px;
+        }
+
+        .header h1 {
+            font-size: clamp(2rem, 5vw, 2.8rem);
+            color: var(--dark);
+            margin-bottom: 15px;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1.2;
+            font-weight: 800;
+        }
+
+        .header p {
+            color: var(--gray);
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: var(--transition);
+            margin-bottom: 30px;
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 25px 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite linear;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .card-header h2 {
+            font-size: clamp(1.5rem, 4vw, 1.8rem);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-body {
+            padding: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .card-body {
+                padding: 25px 20px;
+            }
+            body {
+                padding: 15px;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card-body {
+                padding: 20px 15px;
+            }
+            .container {
+                padding: 5px;
+            }
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 700;
+            color: var(--dark);
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-label i {
+            color: var(--primary);
+            width: 20px;
+            text-align: center;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 18px 20px;
+            border: 2px solid var(--gray-light);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: var(--transition);
+            background-color: white;
+            font-family: inherit;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.15);
+        }
+
+        .form-control::placeholder {
+            color: #adb5bd;
+        }
+
+        .select-wrapper {
+            position: relative;
+        }
+
+        .select-wrapper::after {
+            content: '\f078';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+            pointer-events: none;
+        }
+
+        .custom-file-upload {
+            display: block;
+            padding: 25px;
+            border: 2px dashed var(--gray-light);
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            background-color: #fafbfc;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .custom-file-upload:hover,
+        .custom-file-upload.dragover {
+            border-color: var(--primary-light);
+            background-color: rgba(67, 97, 238, 0.03);
+            transform: scale(1.01);
+        }
+
+        .custom-file-upload i {
+            font-size: 2.8rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            transition: var(--transition);
+        }
+
+        .custom-file-upload:hover i {
+            transform: translateY(-5px);
+        }
+
+        .file-info {
+            font-size: 0.95rem;
+            color: var(--gray);
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
+        .file-name {
+            font-weight: 700;
+            color: var(--primary);
+            margin-top: 10px;
+            display: block;
+            word-break: break-word;
+            padding: 8px 12px;
+            background: rgba(67, 97, 238, 0.05);
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .file-size {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-left: 8px;
+            font-weight: normal;
+        }
+
+        .submit-btn {
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 20px 30px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            width: 100%;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(67, 97, 238, 0.3);
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .submit-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .submit-btn:disabled:hover::before {
+            display: none;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            margin-top: 30px;
+            display: none;
+            background: rgba(248, 249, 250, 0.9);
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid var(--gray-light);
+        }
+
+        .progress-container.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .progress-label {
+            font-weight: 700;
+            color: var(--dark);
+            font-size: 1.1rem;
+        }
+
+        .progress-percentage {
+            font-weight: 800;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .progress-bar {
+            height: 14px;
+            background-color: var(--gray-light);
+            border-radius: 7px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--gradient-success);
+            border-radius: 7px;
+            transition: width 0.4s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background-image: linear-gradient(
+                -45deg, 
+                rgba(255, 255, 255, 0.2) 25%, 
+                transparent 25%, 
+                transparent 50%, 
+                rgba(255, 255, 255, 0.2) 50%, 
+                rgba(255, 255, 255, 0.2) 75%, 
+                transparent 75%, 
+                transparent
+            );
+            z-index: 1;
+            background-size: 50px 50px;
+            animation: move 2s linear infinite;
+        }
+
+        @keyframes move {
+            0% { background-position: 0 0; }
+            100% { background-position: 50px 50px; }
+        }
+
+        .progress-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 5px;
+        }
+
+        .progress-status {
+            text-align: center;
+            font-weight: 600;
+            color: var(--dark);
+            min-height: 24px;
+            padding: 8px 0;
+        }
+
+        .status-success {
+            color: #2ecc71;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .status-error {
+            color: var(--danger);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            font-weight: 600;
+        }
+
+        .status-warning {
+            color: var(--warning);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .loader {
+            display: none;
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .loader.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(67, 97, 238, 0.1);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .success-animation {
+            text-align: center;
+            margin: 30px 0;
+            display: none;
+        }
+
+        .success-animation.active {
+            display: block;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .success-checkmark {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 25px;
+            position: relative;
+        }
+
+        .check-icon {
+            width: 100px;
+            height: 100px;
+            position: relative;
+            border-radius: 50%;
+            box-sizing: content-box;
+            border: 5px solid #2ecc71;
+            background: white;
+        }
+
+        .check-icon .icon-line {
+            height: 6px;
+            background-color: #2ecc71;
+            display: block;
+            border-radius: 3px;
+            position: absolute;
+            z-index: 10;
+            transform-origin: left;
+        }
+
+        .check-icon .line-tip {
+            top: 56px;
+            left: 22px;
+            width: 30px;
+            transform: rotate(45deg);
+            animation: icon-line-tip 0.75s ease both;
+        }
+
+        .check-icon .line-long {
+            top: 46px;
+            right: 16px;
+            width: 55px;
+            transform: rotate(-45deg);
+            animation: icon-line-long 0.75s ease both;
+            animation-delay: 0.2s;
+        }
+
+        .check-icon .icon-circle {
+            position: absolute;
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            background: rgba(46, 204, 113, 0.1);
+            animation: circle-anim 0.6s ease both;
+        }
+
+        @keyframes icon-line-tip {
+            0% { width: 0; left: 1px; top: 29px; }
+            54% { width: 0; left: 1px; top: 29px; }
+            70% { width: 40px; left: -8px; top: 47px; }
+            84% { width: 17px; left: 21px; top: 58px; }
+            100% { width: 30px; left: 22px; top: 56px; }
+        }
+
+        @keyframes icon-line-long {
+            0% { width: 0; right: 56px; top: 64px; }
+            65% { width: 0; right: 56px; top: 64px; }
+            84% { width: 65px; right: 0; top: 45px; }
+            100% { width: 55px; right: 16px; top: 46px; }
+        }
+
+        @keyframes circle-anim {
+            0% { transform: scale(0); opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { transform: scale(1); opacity: 0; }
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: var(--gray);
+            font-size: 0.9rem;
+            padding: 0 15px;
+        }
+
+        .footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .warning-note {
+            background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+            border: 2px solid #ffb300;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 25px;
+            font-size: 0.95rem;
+            color: #5d4037;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 179, 0, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 179, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 179, 0, 0); }
+        }
+
+        .warning-note i {
+            color: #ff9800;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .upload-info {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #0d47a1;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-left: 4px solid #2196f3;
+        }
+
+        .upload-info i {
+            color: #2196f3;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .network-status {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            display: none;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+            font-weight: 600;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .network-status.online {
+            background: var(--gradient-success);
+            color: white;
+        }
+
+        .network-status.offline {
+            background: linear-gradient(135deg, var(--danger) 0%, #c2185b 100%);
+            color: white;
+        }
+
+        .retry-btn {
+            background: white;
+            color: var(--primary);
+            border: none;
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-left: 10px;
+        }
+
+        .retry-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Mobile specific optimizations */
+        @media (max-width: 768px) {
+            .submit-btn {
+                padding: 18px 20px;
+                font-size: 1.1rem;
+            }
+            
+            .custom-file-upload {
+                padding: 20px 15px;
+            }
+            
+            .form-control {
+                padding: 16px;
+            }
+            
+            .progress-container {
+                padding: 20px 15px;
+            }
+            
+            .network-status {
+                top: 10px;
+                right: 10px;
+                left: 10px;
+                text-align: center;
+                justify-content: center;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            .card {
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+            
+            .submit-btn,
+            .custom-file-upload,
+            .file-input {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-graduation-cap"></i> Homework Submission Portal</h1>
+            <p>Submit your assignments easily and track upload progress in real-time. Optimized for all devices including mobile.</p>
+        </div>
+
+        <div id="networkStatus" class="network-status">
+            <i class="fas fa-wifi"></i>
+            <span>Connected</span>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2><i class="fas fa-file-upload"></i> Assignment Details</h2>
+            </div>
+            
+            <div class="card-body">
+                <form id="homeworkForm" novalidate>
+                    <div class="form-group">
+                        <label class="form-label" for="subject">
+                            <i class="fas fa-book"></i> Subject
+                        </label>
+                        <div class="select-wrapper">
+                            <select class="form-control" id="subject" required>
+                                <option value="" disabled selected>Select a subject</option>
+                                <option value="mathematics">Mathematics</option>
+                                <option value="physics">Physics</option>
+                                <option value="chemistry">Chemistry</option>
+                                <option value="biology">Biology</option>
+                                <option value="english">English Literature</option>
+                                <option value="history">History</option>
+                                <option value="computer-science">Computer Science</option>
+                                <option value="economics">Economics</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="name">
+                            <i class="fas fa-user"></i> Student Name
+                        </label>
+                        <div class="select-wrapper">
+                            <select class="form-control" id="name" required>
+                                <option value="" disabled selected>Select your name</option>
+                                <option value="john-doe">John Doe</option>
+                                <option value="jane-smith">Jane Smith</option>
+                                <option value="robert-johnson">Robert Johnson</option>
+                                <option value="emily-williams">Emily Williams</option>
+                                <option value="michael-brown">Michael Brown</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="semester">
+                            <i class="fas fa-calendar-alt"></i> Semester
+                        </label>
+                        <div class="select-wrapper">
+                            <select class="form-control" id="semester" required>
+                                <option value="" disabled selected>Select semester</option>
+                                <option value="semester-1">Semester 1</option>
+                                <option value="semester-2">Semester 2</option>
+                                <option value="semester-3">Semester 3</option>
+                                <option value="semester-4">Semester 4</option>
+                                <option value="semester-5">Semester 5</option>
+                                <option value="semester-6">Semester 6</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-paperclip"></i> Upload File
+                        </label>
+                        <div class="custom-file-upload" id="fileUploadArea">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <div>Drag & drop your file here or click to browse</div>
+                            <div class="file-info">Supports: PDF, DOC, DOCX, PPT, ZIP, JPG, PNG (Max 50MB)</div>
+                            <span class="file-name" id="fileName">No file selected</span>
+                        </div>
+                        <input type="file" id="fileInput" hidden required>
+                        <div class="upload-info">
+                            <i class="fas fa-info-circle"></i>
+                            <div>Your submission will be encrypted and sent directly to your teacher.</div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        <i class="fas fa-file-upload"></i> Upload Assignment
+                    </button>
+                    
+                    <!-- Progress Bar -->
+                    <div class="progress-container" id="progressContainer">
+                        <div class="progress-header">
+                            <span class="progress-label">Uploading Assignment</span>
+                            <span class="progress-percentage" id="progressPercentage">0%</span>
+                        </div>
+                        <div class="progress-details">
+                            <span id="fileSizeInfo">0 KB / 0 KB</span>
+                            <span id="uploadSpeed">-</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <div class="progress-status" id="progressStatus">Preparing upload...</div>
+                    </div>
+                    
+                    <!-- Loading Spinner -->
+                    <div class="loader" id="loader">
+                        <div class="spinner"></div>
+                        <p>Processing your submission...</p>
+                    </div>
+                    
+                    <!-- Success Animation -->
+                    <div class="success-animation" id="successAnimation">
+                        <div class="success-checkmark">
+                            <div class="check-icon">
+                                <span class="icon-line line-tip"></span>
+                                <span class="icon-line line-long"></span>
+                                <div class="icon-circle"></div>
+                            </div>
+                        </div>
+                        <h3>Assignment Submitted Successfully!</h3>
+                        <p id="successDetails">Your file has been uploaded successfully.</p>
+                        <div class="warning-note">
+                            <i class="fas fa-shield-alt"></i>
+                            <div>Your submission has been recorded and sent to the teacher. You will receive a confirmation email shortly.</div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Need help? Contact <a href="mailto:support@university.edu">academic support</a> • Secure SSL Connection 🔒 • v2.0</p>
+        </div>
+    </div>
+
+    <script>
+        class HomeworkUploader {
+            constructor() {
+                this.MAX_RETRIES = 3;
+                this.CHUNK_SIZE = 1024 * 512; // 512KB chunks
+                this.currentRetry = 0;
+                this.uploadController = null;
+                this.lastSpeedUpdate = 0;
+                this.lastLoaded = 0;
+                this.isMobile = this.detectMobile();
+                this.timeoutDuration = this.isMobile ? 300000 : 120000; // 5 min for mobile, 2 min for desktop
+                this.uploadTimeout = null;
+                
+                this.initializeElements();
+                this.setupEventListeners();
+                this.setupNetworkMonitoring();
+                this.populateSelectOptions();
+            }
+            
+            detectMobile() {
+                return /iPhone|iPad|iPod|Android|webOS|BlackBerry|Windows Phone/i.test(navigator.userAgent);
+            }
+            
+            initializeElements() {
+                this.elements = {
+                    form: document.getElementById('homeworkForm'),
+                    fileInput: document.getElementById('fileInput'),
+                    fileUploadArea: document.getElementById('fileUploadArea'),
+                    fileName: document.getElementById('fileName'),
+                    submitBtn: document.getElementById('submitBtn'),
+                    progressContainer: document.getElementById('progressContainer'),
+                    progressFill: document.getElementById('progressFill'),
+                    progressPercentage: document.getElementById('progressPercentage'),
+                    progressStatus: document.getElementById('progressStatus'),
+                    loader: document.getElementById('loader'),
+                    successAnimation: document.getElementById('successAnimation'),
+                    successDetails: document.getElementById('successDetails'),
+                    fileSizeInfo: document.getElementById('fileSizeInfo'),
+                    uploadSpeed: document.getElementById('uploadSpeed'),
+                    networkStatus: document.getElementById('networkStatus')
+                };
+            }
+            
+            setupEventListeners() {
+                // File upload area click
+                this.elements.fileUploadArea.addEventListener('click', () => {
+                    this.elements.fileInput.click();
+                });
+                
+                // File input change
+                this.elements.fileInput.addEventListener('change', (e) => {
+                    this.handleFiles(e.target.files);
+                });
+                
+                // Drag and drop
+                ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                    this.elements.fileUploadArea.addEventListener(eventName, this.preventDefaults, false);
+                });
+                
+                ['dragenter', 'dragover'].forEach(eventName => {
+                    this.elements.fileUploadArea.addEventListener(eventName, () => {
+                        this.elements.fileUploadArea.classList.add('dragover');
+                    }, false);
+                });
+                
+                ['dragleave', 'drop'].forEach(eventName => {
+                    this.elements.fileUploadArea.addEventListener(eventName, () => {
+                        this.elements.fileUploadArea.classList.remove('dragover');
+                    }, false);
+                });
+                
+                this.elements.fileUploadArea.addEventListener('drop', (e) => {
+                    this.handleFiles(e.dataTransfer.files);
+                }, false);
+                
+                // Form submission
+                this.elements.form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.handleSubmit();
+                });
+            }
+            
+            setupNetworkMonitoring() {
+                window.addEventListener('online', () => {
+                    this.showNetworkStatus('online', 'Connected to network');
+                });
+                
+                window.addEventListener('offline', () => {
+                    this.showNetworkStatus('offline', 'No internet connection');
+                });
+                
+                // Initial check
+                if (!navigator.onLine) {
+                    this.showNetworkStatus('offline', 'No internet connection');
+                }
+            }
+            
+            showNetworkStatus(type, message) {
+                this.elements.networkStatus.innerHTML = `
+                    <i class="fas fa-${type === 'online' ? 'wifi' : 'exclamation-triangle'}"></i>
+                    <span>${message}</span>
+                `;
+                this.elements.networkStatus.className = `network-status ${type}`;
+                this.elements.networkStatus.style.display = 'flex';
+                
+                setTimeout(() => {
+                    this.elements.networkStatus.style.display = 'none';
+                }, 3000);
+            }
+            
+            preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+            
+            handleFiles(files) {
+                if (files.length === 0) return;
+                
+                const file = files[0];
+                const maxSize = 50 * 1024 * 1024; // 50MB
+                
+                // Validate file size
+                if (file.size > maxSize) {
+                    this.showError('File size exceeds 50MB limit. Please choose a smaller file.');
+                    this.elements.fileInput.value = '';
+                    this.elements.fileName.textContent = 'No file selected';
+                    return;
+                }
+                
+                // Validate file type
+                const allowedTypes = [
+                    'application/pdf',
+                    'application/msword',
+                    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                    'application/vnd.ms-powerpoint',
+                    'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+                    'application/zip',
+                    'image/jpeg',
+                    'image/png',
+                    'text/plain'
+                ];
+                
+                const fileExtension = file.name.split('.').pop().toLowerCase();
+                const allowedExtensions = ['pdf', 'doc', 'docx', 'ppt', 'pptx', 'zip', 'jpg', 'jpeg', 'png', 'txt'];
+                
+                if (!allowedTypes.includes(file.type) && !allowedExtensions.includes(fileExtension)) {
+                    this.showError('File type not supported. Please upload PDF, DOC, DOCX, PPT, ZIP, JPG, PNG, or TXT files.');
+                    this.elements.fileInput.value = '';
+                    this.elements.fileName.textContent = 'No file selected';
+                    return;
+                }
+                
+                // Display file info
+                const fileSize = this.formatFileSize(file.size);
+                this.elements.fileName.innerHTML = `
+                    <i class="fas fa-file-alt"></i> ${file.name}
+                    <span class="file-size">(${fileSize})</span>
+                `;
+            }
+            
+            async handleSubmit() {
+                const file = this.elements.fileInput.files[0];
+                const subject = document.getElementById('subject').value;
+                const name = document.getElementById('name').value;
+                const semester = document.getElementById('semester').value;
+                
+                if (!file || !subject || !name || !semester) {
+                    this.showError('Please fill all fields and select a file.');
+                    return;
+                }
+                
+                // Disable submit button and show progress
+                this.disableSubmitButton();
+                this.showProgress();
+                
+                try {
+                    await this.uploadWithRetry(file, subject, name, semester);
+                    this.showSuccess(file, subject);
+                    this.resetForm();
+                } catch (error) {
+                    this.handleUploadError(error.message);
+                }
+            }
+            
+            disableSubmitButton() {
+                this.elements.submitBtn.disabled = true;
+                this.elements.submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...';
+            }
+            
+            enableSubmitButton() {
+                this.elements.submitBtn.disabled = false;
+                this.elements.submitBtn.innerHTML = '<i class="fas fa-file-upload"></i> Upload Assignment';
+            }
+            
+            showProgress() {
+                this.elements.progressContainer.classList.add('active');
+                this.elements.loader.classList.remove('active');
+                this.elements.successAnimation.classList.remove('active');
+            }
+            
+            hideProgress() {
+                this.elements.progressContainer.classList.remove('active');
+            }
+            
+            showError(message) {
+                this.elements.progressStatus.innerHTML = `
+                    <span class="status-error">
+                        <i class="fas fa-exclamation-triangle"></i> ${message}
+                    </span>
+                `;
+                this.elements.submitBtn.innerHTML = '<i class="fas fa-redo"></i> Try Again';
+                
+                setTimeout(() => {
+                    this.hideProgress();
+                    this.enableSubmitButton();
+                }, 5000);
+            }
+            
+            async uploadWithRetry(file, subject, name, semester, retryCount = 0) {
+                try {
+                    return await this.uploadFile(file, subject, name, semester);
+                } catch (error) {
+                    if (retryCount < this.MAX_RETRIES) {
+                        this.elements.progressStatus.innerHTML = `
+                            <span class="status-warning">
+                                <i class="fas fa-sync-alt fa-spin"></i> Retrying upload (${retryCount + 1}/${this.MAX_RETRIES})...
+                            </span>
+                        `;
+                        
+                        // Exponential backoff
+                        await this.sleep(2000 * Math.pow(2, retryCount));
+                        return this.uploadWithRetry(file, subject, name, semester, retryCount + 1);
+                    }
+                    throw error;
+                }
+            }
+            
+            async uploadFile(file, subject, name, semester) {
+                // Create form data
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('subject', subject);
+                formData.append('name', name);
+                formData.append('semester', semester);
+                formData.append('timestamp', new Date().toISOString());
+                formData.append('device', this.isMobile ? 'mobile' : 'desktop');
+                
+                return new Promise((resolve, reject) => {
+                    const xhr = new XMLHttpRequest();
+                    
+                    // Set timeout
+                    this.uploadTimeout = setTimeout(() => {
+                        xhr.abort();
+                        reject(new Error('Upload timeout. Please check your connection.'));
+                    }, this.timeoutDuration);
+                    
+                    // Upload progress
+                    xhr.upload.addEventListener('progress', (e) => {
+                        if (e.lengthComputable) {
+                            const percentComplete = (e.loaded / e.total) * 100;
+                            this.updateProgress(e.loaded, e.total, percentComplete);
+                        }
+                    });
+                    
+                    // Load complete
+                    xhr.addEventListener('load', () => {
+                        clearTimeout(this.uploadTimeout);
+                        
+                        if (xhr.status >= 200 && xhr.status < 300) {
+                            try {
+                                const response = JSON.parse(xhr.responseText);
+                                resolve(response);
+                            } catch {
+                                resolve({ success: true });
+                            }
+                        } else {
+                            reject(new Error(`Upload failed with status ${xhr.status}`));
+                        }
+                    });
+                    
+                    // Error handling
+                    xhr.addEventListener('error', () => {
+                        clearTimeout(this.uploadTimeout);
+                        reject(new Error('Network error. Please check your connection.'));
+                    });
+                    
+                    xhr.addEventListener('abort', () => {
+                        clearTimeout(this.uploadTimeout);
+                        reject(new Error('Upload was cancelled.'));
+                    });
+                    
+                    // Use different strategies based on file size and device
+                    let endpoint = '/api/upload';
+                    
+                    if (this.isMobile && file.size > 10 * 1024 * 1024) {
+                        endpoint = '/api/upload-chunked';
+                    }
+                    
+                    xhr.open('POST', endpoint);
+                    
+                    // Add headers if needed
+                    // xhr.setRequestHeader('Authorization', 'Bearer token');
+                    // xhr.setRequestHeader('X-Device-Type', this.isMobile ? 'mobile' : 'desktop');
+                    
+                    xhr.send(formData);
+                });
+            }
+            
+            updateProgress(loaded, total, percent) {
+                const currentTime = Date.now();
+                
+                // Update progress bar
+                this.elements.progressFill.style.width = `${percent}%`;
+                this.elements.progressPercentage.textContent = `${Math.round(percent)}%`;
+                
+                // Update file size info
+                this.elements.fileSizeInfo.textContent = 
+                    `${this.formatFileSize(loaded)} / ${this.formatFileSize(total)}`;
+                
+                // Calculate upload speed
+                if (this.lastSpeedUpdate > 0) {
+                    const timeDiff = (currentTime - this.lastSpeedUpdate) / 1000; // in seconds
+                    const dataDiff = loaded - this.lastLoaded; // in bytes
+                    
+                    if (timeDiff >= 1) { // Update every second
+                        const speedBps = dataDiff / timeDiff;
+                        const speed = this.formatFileSize(speedBps) + '/s';
+                        this.elements.uploadSpeed.textContent = speed;
+                        
+                        this.lastSpeedUpdate = currentTime;
+                        this.lastLoaded = loaded;
+                    }
+                } else {
+                    this.lastSpeedUpdate = currentTime;
+                    this.lastLoaded = loaded;
+                }
+                
+                // Update status message
+                if (percent < 100) {
+                    this.elements.progressStatus.textContent = `Uploading... ${Math.round(percent)}% complete`;
+                } else {
+                    this.elements.progressStatus.textContent = 'Finalizing upload...';
+                }
+            }
+            
+            showSuccess(file, subject) {
+                this.hideProgress();
+                this.elements.loader.classList.add('active');
+                
+                // Simulate processing delay
+                setTimeout(() => {
+                    this.elements.loader.classList.remove('active');
+                    this.elements.successAnimation.classList.add('active');
+                    
+                    this.elements.successDetails.textContent = 
+                        `"${file.name}" has been uploaded successfully for ${subject}.`;
+                }, 1500);
+            }
+            
+            resetForm() {
+                setTimeout(() => {
+                    this.elements.form.reset();
+                    this.elements.fileName.innerHTML = 'No file selected';
+                    this.elements.successAnimation.classList.remove('active');
+                    this.enableSubmitButton();
+                    
+                    // Reset progress
+                    this.elements.progressFill.style.width = '0%';
+                    this.elements.progressPercentage.textContent = '0%';
+                    this.elements.fileSizeInfo.textContent = '0 KB / 0 KB';
+                    this.elements.uploadSpeed.textContent = '-';
+                    this.lastSpeedUpdate = 0;
+                    this.lastLoaded = 0;
+                }, 5000);
+            }
+            
+            handleUploadError(message) {
+                clearTimeout(this.uploadTimeout);
+                
+                this.elements.progressStatus.innerHTML = `
+                    <span class="status-error">
+                        <i class="fas fa-exclamation-triangle"></i> ${message}
+                        <button class="retry-btn" onclick="uploader.retryUpload()">Retry</button>
+                    </span>
+                `;
+                
+                this.elements.submitBtn.innerHTML = '<i class="fas fa-redo"></i> Try Again';
+                
+                setTimeout(() => {
+                    this.hideProgress();
+                    this.enableSubmitButton();
+                }, 10000);
+            }
+            
+            retryUpload() {
+                const event = new Event('submit');
+                this.elements.form.dispatchEvent(event);
+            }
+            
+            populateSelectOptions() {
+                // Options are already hardcoded in HTML
+                // This method can be extended to fetch options from API
+            }
+            
+            sleep(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
+        }
+        
+        // Initialize the uploader when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            window.uploader = new HomeworkUploader();
+            
+            // Prevent accidental page leave during upload
+            window.addEventListener('beforeunload', (e) => {
+                if (uploader.elements.submitBtn.disabled) {
+                    e.preventDefault();
+                    e.returnValue = 'Your upload is in progress. Are you sure you want to leave?';
+                    return e.returnValue;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
