@@ -1,1291 +1,1061 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Homework Submission Portal</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary: #4361ee;
-            --primary-light: #4895ef;
-            --secondary: #3f37c9;
-            --success: #4cc9f0;
-            --danger: #f72585;
-            --warning: #ff9e00;
-            --light: #f8f9fa;
-            --dark: #212529;
-            --gray: #6c757d;
-            --gray-light: #e9ecef;
-            --border-radius: 16px;
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            --shadow-hover: 0 20px 50px rgba(0, 0, 0, 0.12);
-            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            --gradient-success: linear-gradient(135deg, var(--success) 0%, #2ecc71 100%);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', system-ui, -apple-system, 'SF Pro Display', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            min-height: 100vh;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: var(--dark);
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .container {
-            max-width: 800px;
-            width: 100%;
-            margin: 0 auto;
-            padding: 10px;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding: 0 15px;
-        }
-
-        .header h1 {
-            font-size: clamp(2rem, 5vw, 2.8rem);
-            color: var(--dark);
-            margin-bottom: 15px;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            line-height: 1.2;
-            font-weight: 800;
-        }
-
-        .header p {
-            color: var(--gray);
-            font-size: clamp(0.9rem, 2vw, 1.1rem);
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
-
-        .card {
-            background: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            overflow: hidden;
-            transition: var(--transition);
-            margin-bottom: 30px;
-        }
-
-        .card:hover {
-            box-shadow: var(--shadow-hover);
-            transform: translateY(-5px);
-        }
-
-        .card-header {
-            background: var(--gradient-primary);
-            color: white;
-            padding: 25px 30px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card-header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
-            transform: rotate(45deg);
-            animation: shine 3s infinite linear;
-        }
-
-        @keyframes shine {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
-        }
-
-        .card-header h2 {
-            font-size: clamp(1.5rem, 4vw, 1.8rem);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .card-body {
-            padding: 40px;
-        }
-
-        @media (max-width: 768px) {
-            .card-body {
-                padding: 25px 20px;
-            }
-            body {
-                padding: 15px;
-                align-items: flex-start;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .card-body {
-                padding: 20px 15px;
-            }
-            .container {
-                padding: 5px;
-            }
-        }
-
-        .form-group {
-            margin-bottom: 25px;
-            position: relative;
-        }
-
-        .form-label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: 700;
-            color: var(--dark);
-            font-size: 1.05rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .form-label i {
-            color: var(--primary);
-            width: 20px;
-            text-align: center;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 18px 20px;
-            border: 2px solid var(--gray-light);
-            border-radius: 12px;
-            font-size: 1rem;
-            transition: var(--transition);
-            background-color: white;
-            font-family: inherit;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary-light);
-            box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.15);
-        }
-
-        .form-control::placeholder {
-            color: #adb5bd;
-        }
-
-        .select-wrapper {
-            position: relative;
-        }
-
-        .select-wrapper::after {
-            content: '\f078';
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            position: absolute;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--primary);
-            pointer-events: none;
-        }
-
-        .custom-file-upload {
-            display: block;
-            padding: 25px;
-            border: 2px dashed var(--gray-light);
-            border-radius: 12px;
-            text-align: center;
-            cursor: pointer;
-            transition: var(--transition);
-            background-color: #fafbfc;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .custom-file-upload:hover,
-        .custom-file-upload.dragover {
-            border-color: var(--primary-light);
-            background-color: rgba(67, 97, 238, 0.03);
-            transform: scale(1.01);
-        }
-
-        .custom-file-upload i {
-            font-size: 2.8rem;
-            color: var(--primary);
-            margin-bottom: 15px;
-            transition: var(--transition);
-        }
-
-        .custom-file-upload:hover i {
-            transform: translateY(-5px);
-        }
-
-        .file-info {
-            font-size: 0.95rem;
-            color: var(--gray);
-            margin-top: 8px;
-            line-height: 1.5;
-        }
-
-        .file-name {
-            font-weight: 700;
-            color: var(--primary);
-            margin-top: 10px;
-            display: block;
-            word-break: break-word;
-            padding: 8px 12px;
-            background: rgba(67, 97, 238, 0.05);
-            border-radius: 8px;
-            border-left: 4px solid var(--primary);
-        }
-
-        .file-size {
-            font-size: 0.9rem;
-            color: var(--gray);
-            margin-left: 8px;
-            font-weight: normal;
-        }
-
-        .submit-btn {
-            background: var(--gradient-primary);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            padding: 20px 30px;
-            font-size: 1.2rem;
-            font-weight: 700;
-            width: 100%;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            margin-top: 10px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .submit-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: 0.5s;
-        }
-
-        .submit-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(67, 97, 238, 0.3);
-        }
-
-        .submit-btn:hover::before {
-            left: 100%;
-        }
-
-        .submit-btn:active {
-            transform: translateY(-1px);
-        }
-
-        .submit-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        .submit-btn:disabled:hover::before {
-            display: none;
-        }
-
-        /* Progress Bar */
-        .progress-container {
-            margin-top: 30px;
-            display: none;
-            background: rgba(248, 249, 250, 0.9);
-            padding: 25px;
-            border-radius: 12px;
-            border: 1px solid var(--gray-light);
-        }
-
-        .progress-container.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .progress-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .progress-label {
-            font-weight: 700;
-            color: var(--dark);
-            font-size: 1.1rem;
-        }
-
-        .progress-percentage {
-            font-weight: 800;
-            color: var(--primary);
-            font-size: 1.2rem;
-        }
-
-        .progress-bar {
-            height: 14px;
-            background-color: var(--gray-light);
-            border-radius: 7px;
-            overflow: hidden;
-            margin-bottom: 15px;
-            position: relative;
-        }
-
-        .progress-fill {
-            height: 100%;
-            width: 0%;
-            background: var(--gradient-success);
-            border-radius: 7px;
-            transition: width 0.4s ease-out;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .progress-fill::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            right: 0;
-            background-image: linear-gradient(
-                -45deg, 
-                rgba(255, 255, 255, 0.2) 25%, 
-                transparent 25%, 
-                transparent 50%, 
-                rgba(255, 255, 255, 0.2) 50%, 
-                rgba(255, 255, 255, 0.2) 75%, 
-                transparent 75%, 
-                transparent
-            );
-            z-index: 1;
-            background-size: 50px 50px;
-            animation: move 2s linear infinite;
-        }
-
-        @keyframes move {
-            0% { background-position: 0 0; }
-            100% { background-position: 50px 50px; }
-        }
-
-        .progress-details {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.9rem;
-            color: var(--gray);
-            margin-bottom: 5px;
-        }
-
-        .progress-status {
-            text-align: center;
-            font-weight: 600;
-            color: var(--dark);
-            min-height: 24px;
-            padding: 8px 0;
-        }
-
-        .status-success {
-            color: #2ecc71;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            font-size: 1.1rem;
-            font-weight: 700;
-        }
-
-        .status-error {
-            color: var(--danger);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            font-weight: 600;
-        }
-
-        .status-warning {
-            color: var(--warning);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-        }
-
-        .loader {
-            display: none;
-            text-align: center;
-            margin: 30px 0;
-        }
-
-        .loader.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-
-        .spinner {
-            width: 60px;
-            height: 60px;
-            border: 4px solid rgba(67, 97, 238, 0.1);
-            border-top: 4px solid var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .success-animation {
-            text-align: center;
-            margin: 30px 0;
-            display: none;
-        }
-
-        .success-animation.active {
-            display: block;
-            animation: fadeIn 0.8s ease;
-        }
-
-        .success-checkmark {
-            width: 100px;
-            height: 100px;
-            margin: 0 auto 25px;
-            position: relative;
-        }
-
-        .check-icon {
-            width: 100px;
-            height: 100px;
-            position: relative;
-            border-radius: 50%;
-            box-sizing: content-box;
-            border: 5px solid #2ecc71;
-            background: white;
-        }
-
-        .check-icon .icon-line {
-            height: 6px;
-            background-color: #2ecc71;
-            display: block;
-            border-radius: 3px;
-            position: absolute;
-            z-index: 10;
-            transform-origin: left;
-        }
-
-        .check-icon .line-tip {
-            top: 56px;
-            left: 22px;
-            width: 30px;
-            transform: rotate(45deg);
-            animation: icon-line-tip 0.75s ease both;
-        }
-
-        .check-icon .line-long {
-            top: 46px;
-            right: 16px;
-            width: 55px;
-            transform: rotate(-45deg);
-            animation: icon-line-long 0.75s ease both;
-            animation-delay: 0.2s;
-        }
-
-        .check-icon .icon-circle {
-            position: absolute;
-            border-radius: 50%;
-            width: 100px;
-            height: 100px;
-            background: rgba(46, 204, 113, 0.1);
-            animation: circle-anim 0.6s ease both;
-        }
-
-        @keyframes icon-line-tip {
-            0% { width: 0; left: 1px; top: 29px; }
-            54% { width: 0; left: 1px; top: 29px; }
-            70% { width: 40px; left: -8px; top: 47px; }
-            84% { width: 17px; left: 21px; top: 58px; }
-            100% { width: 30px; left: 22px; top: 56px; }
-        }
-
-        @keyframes icon-line-long {
-            0% { width: 0; right: 56px; top: 64px; }
-            65% { width: 0; right: 56px; top: 64px; }
-            84% { width: 65px; right: 0; top: 45px; }
-            100% { width: 55px; right: 16px; top: 46px; }
-        }
-
-        @keyframes circle-anim {
-            0% { transform: scale(0); opacity: 0; }
-            50% { opacity: 0.5; }
-            100% { transform: scale(1); opacity: 0; }
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 40px;
-            color: var(--gray);
-            font-size: 0.9rem;
-            padding: 0 15px;
-        }
-
-        .footer a {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .footer a:hover {
-            text-decoration: underline;
-        }
-
-        .warning-note {
-            background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
-            border: 2px solid #ffb300;
-            border-radius: 10px;
-            padding: 20px;
-            margin-top: 25px;
-            font-size: 0.95rem;
-            color: #5d4037;
-            display: flex;
-            align-items: flex-start;
-            gap: 15px;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(255, 179, 0, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(255, 179, 0, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 179, 0, 0); }
-        }
-
-        .warning-note i {
-            color: #ff9800;
-            font-size: 1.4rem;
-            flex-shrink: 0;
-            margin-top: 2px;
-        }
-
-        .upload-info {
-            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-            border-radius: 10px;
-            padding: 15px 20px;
-            margin-top: 10px;
-            font-size: 0.9rem;
-            color: #0d47a1;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border-left: 4px solid #2196f3;
-        }
-
-        .upload-info i {
-            color: #2196f3;
-            font-size: 1.2rem;
-            flex-shrink: 0;
-        }
-
-        .network-status {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: white;
-            padding: 10px 20px;
-            border-radius: 25px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            display: none;
-            align-items: center;
-            gap: 10px;
-            z-index: 1000;
-            font-weight: 600;
-            animation: slideIn 0.3s ease;
-        }
-
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
-        .network-status.online {
-            background: var(--gradient-success);
-            color: white;
-        }
-
-        .network-status.offline {
-            background: linear-gradient(135deg, var(--danger) 0%, #c2185b 100%);
-            color: white;
-        }
-
-        .retry-btn {
-            background: white;
-            color: var(--primary);
-            border: none;
-            border-radius: 8px;
-            padding: 8px 16px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            margin-left: 10px;
-        }
-
-        .retry-btn:hover {
-            background: var(--primary);
-            color: white;
-        }
-
-        /* Mobile specific optimizations */
-        @media (max-width: 768px) {
-            .submit-btn {
-                padding: 18px 20px;
-                font-size: 1.1rem;
-            }
-            
-            .custom-file-upload {
-                padding: 20px 15px;
-            }
-            
-            .form-control {
-                padding: 16px;
-            }
-            
-            .progress-container {
-                padding: 20px 15px;
-            }
-            
-            .network-status {
-                top: 10px;
-                right: 10px;
-                left: 10px;
-                text-align: center;
-                justify-content: center;
-            }
-        }
-
-        /* Print styles */
-        @media print {
-            .card {
-                box-shadow: none;
-                border: 1px solid #ddd;
-            }
-            
-            .submit-btn,
-            .custom-file-upload,
-            .file-input {
-                display: none;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Homework Submission Portal</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-light: #4895ef;
+      --secondary: #3f37c9;
+      --success: #4cc9f0;
+      --danger: #f72585;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --gray: #6c757d;
+      --gray-light: #e9ecef;
+      --border-radius: 12px;
+      --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--dark);
+    }
+
+    .container {
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .header h1 {
+      font-size: 2.8rem;
+      color: var(--dark);
+      margin-bottom: 10px;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .header p {
+      color: var(--gray);
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      transition: var(--transition);
+    }
+
+    .card:hover {
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+    }
+
+    .card-header {
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      color: white;
+      padding: 25px 30px;
+    }
+
+    .card-header h2 {
+      font-size: 1.8rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .card-body {
+      padding: 40px;
+    }
+
+    @media (max-width: 768px) {
+      .card-body {
+        padding: 30px 20px;
+      }
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+      position: relative;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: 600;
+      color: var(--dark);
+      font-size: 1.05rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .form-label i {
+      color: var(--primary);
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 16px 18px;
+      border: 2px solid var(--gray-light);
+      border-radius: 10px;
+      font-size: 1rem;
+      transition: var(--transition);
+      background-color: white;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary-light);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+    }
+
+    .form-control::placeholder {
+      color: #adb5bd;
+    }
+
+    .custom-file-upload {
+      display: block;
+      padding: 20px;
+      border: 2px dashed var(--gray-light);
+      border-radius: 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+      background-color: #fafbfc;
+    }
+
+    .custom-file-upload:hover {
+      border-color: var(--primary-light);
+      background-color: rgba(67, 97, 238, 0.03);
+    }
+
+    .custom-file-upload i {
+      font-size: 2.5rem;
+      color: var(--primary);
+      margin-bottom: 15px;
+    }
+
+    .file-info {
+      font-size: 1rem;
+      color: var(--gray);
+      margin-top: 8px;
+    }
+
+    .file-name {
+      font-weight: 600;
+      color: var(--dark);
+      margin-top: 5px;
+      display: block;
+    }
+
+    .submit-btn {
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 18px 30px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      width: 100%;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 7px 20px rgba(67, 97, 238, 0.3);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* Progress Bar */
+    .progress-container {
+      margin-top: 30px;
+      display: none;
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .progress-label {
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .progress-percentage {
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .progress-bar {
+      height: 12px;
+      background-color: var(--gray-light);
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: 15px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(to right, var(--success), var(--primary-light));
+      border-radius: 6px;
+      transition: width 0.5s ease;
+    }
+
+    .progress-status {
+      text-align: center;
+      font-weight: 600;
+      color: var(--gray);
+      min-height: 24px;
+    }
+
+    .status-success {
+      color: #2ecc71;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-size: 1.1rem;
+    }
+
+    .status-error {
+      color: var(--danger);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .loader {
+      display: none;
+      text-align: center;
+      margin: 30px 0;
+    }
+
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid rgba(67, 97, 238, 0.1);
+      border-top: 5px solid var(--primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .success-animation {
+      text-align: center;
+      margin: 30px 0;
+      display: none;
+    }
+
+    .success-checkmark {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 20px;
+      position: relative;
+    }
+
+    .check-icon {
+      width: 80px;
+      height: 80px;
+      position: relative;
+      border-radius: 50%;
+      box-sizing: content-box;
+      border: 4px solid #4caf50;
+    }
+
+    .check-icon::before {
+      top: 3px;
+      left: -2px;
+      width: 30px;
+      transform-origin: 100% 50%;
+      border-radius: 100px 0 0 100px;
+    }
+
+    .check-icon::after {
+      top: 0;
+      left: 30px;
+      width: 60px;
+      transform-origin: 0 50%;
+      border-radius: 0 100px 100px 0;
+      animation: rotate-circle 4.25s ease-in;
+    }
+
+    .check-icon .icon-line {
+      height: 5px;
+      background-color: #4caf50;
+      display: block;
+      border-radius: 2px;
+      position: absolute;
+      z-index: 10;
+    }
+
+    .check-icon .line-tip {
+      top: 46px;
+      left: 14px;
+      width: 25px;
+      transform: rotate(45deg);
+      animation: icon-line-tip 0.75s;
+    }
+
+    .check-icon .line-long {
+      top: 38px;
+      right: 8px;
+      width: 47px;
+      transform: rotate(-45deg);
+      animation: icon-line-long 0.75s;
+    }
+
+    @keyframes rotate-circle {
+      0% { transform: rotate(-45deg); }
+      5% { transform: rotate(-45deg); }
+      12% { transform: rotate(-405deg); }
+      100% { transform: rotate(-405deg); }
+    }
+
+    @keyframes icon-line-tip {
+      0% { width: 0; left: 1px; top: 19px; }
+      54% { width: 0; left: 1px; top: 19px; }
+      70% { width: 50px; left: -8px; top: 37px; }
+      84% { width: 17px; left: 21px; top: 48px; }
+      100% { width: 25px; left: 14px; top: 45px; }
+    }
+
+    @keyframes icon-line-long {
+      0% { width: 0; right: 46px; top: 54px; }
+      65% { width: 0; right: 46px; top: 54px; }
+      84% { width: 55px; right: 0; top: 35px; }
+      100% { width: 47px; right: 8px; top: 38px; }
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      color: var(--gray);
+      font-size: 0.9rem;
+    }
+
+    .footer a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    .warning-note {
+      background-color: #fff3cd;
+      border: 1px solid #ffc107;
+      border-radius: 8px;
+      padding: 15px;
+      margin-top: 20px;
+      font-size: 0.9rem;
+      color: #856404;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .warning-note i {
+      color: #ffc107;
+      font-size: 1.2rem;
+    }
+
+    .upload-info {
+      background-color: #e3f2fd;
+      border-radius: 8px;
+      padding: 12px 15px;
+      margin-top: 5px;
+      font-size: 0.85rem;
+      color: #0d47a1;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .upload-info i {
+      color: #0088cc;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1><i class="fas fa-graduation-cap"></i> Homework Submission Portal</h1>
-            <p>Submit your assignments easily and track upload progress in real-time. Optimized for all devices including mobile.</p>
-        </div>
-
-        <div id="networkStatus" class="network-status">
-            <i class="fas fa-wifi"></i>
-            <span>Connected</span>
-        </div>
-
-        <div class="card">
-            <div class="card-header">
-                <h2><i class="fas fa-file-upload"></i> Assignment Details</h2>
-            </div>
-            
-            <div class="card-body">
-                <form id="homeworkForm" novalidate>
-                    <div class="form-group">
-                        <label class="form-label" for="subject">
-                            <i class="fas fa-book"></i> Subject
-                        </label>
-                        <div class="select-wrapper">
-                            <select class="form-control" id="subject" required>
-                                <option value="" disabled selected>Select a subject</option>
-                                <option value="mathematics">Mathematics</option>
-                                <option value="physics">Physics</option>
-                                <option value="chemistry">Chemistry</option>
-                                <option value="biology">Biology</option>
-                                <option value="english">English Literature</option>
-                                <option value="history">History</option>
-                                <option value="computer-science">Computer Science</option>
-                                <option value="economics">Economics</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label" for="name">
-                            <i class="fas fa-user"></i> Student Name
-                        </label>
-                        <div class="select-wrapper">
-                            <select class="form-control" id="name" required>
-                                <option value="" disabled selected>Select your name</option>
-                                <option value="john-doe">John Doe</option>
-                                <option value="jane-smith">Jane Smith</option>
-                                <option value="robert-johnson">Robert Johnson</option>
-                                <option value="emily-williams">Emily Williams</option>
-                                <option value="michael-brown">Michael Brown</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label" for="semester">
-                            <i class="fas fa-calendar-alt"></i> Semester
-                        </label>
-                        <div class="select-wrapper">
-                            <select class="form-control" id="semester" required>
-                                <option value="" disabled selected>Select semester</option>
-                                <option value="semester-1">Semester 1</option>
-                                <option value="semester-2">Semester 2</option>
-                                <option value="semester-3">Semester 3</option>
-                                <option value="semester-4">Semester 4</option>
-                                <option value="semester-5">Semester 5</option>
-                                <option value="semester-6">Semester 6</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">
-                            <i class="fas fa-paperclip"></i> Upload File
-                        </label>
-                        <div class="custom-file-upload" id="fileUploadArea">
-                            <i class="fas fa-cloud-upload-alt"></i>
-                            <div>Drag & drop your file here or click to browse</div>
-                            <div class="file-info">Supports: PDF, DOC, DOCX, PPT, ZIP, JPG, PNG (Max 50MB)</div>
-                            <span class="file-name" id="fileName">No file selected</span>
-                        </div>
-                        <input type="file" id="fileInput" hidden required>
-                        <div class="upload-info">
-                            <i class="fas fa-info-circle"></i>
-                            <div>Your submission will be encrypted and sent directly to your teacher.</div>
-                        </div>
-                    </div>
-                    
-                    <button type="submit" class="submit-btn" id="submitBtn">
-                        <i class="fas fa-file-upload"></i> Upload Assignment
-                    </button>
-                    
-                    <!-- Progress Bar -->
-                    <div class="progress-container" id="progressContainer">
-                        <div class="progress-header">
-                            <span class="progress-label">Uploading Assignment</span>
-                            <span class="progress-percentage" id="progressPercentage">0%</span>
-                        </div>
-                        <div class="progress-details">
-                            <span id="fileSizeInfo">0 KB / 0 KB</span>
-                            <span id="uploadSpeed">-</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" id="progressFill"></div>
-                        </div>
-                        <div class="progress-status" id="progressStatus">Preparing upload...</div>
-                    </div>
-                    
-                    <!-- Loading Spinner -->
-                    <div class="loader" id="loader">
-                        <div class="spinner"></div>
-                        <p>Processing your submission...</p>
-                    </div>
-                    
-                    <!-- Success Animation -->
-                    <div class="success-animation" id="successAnimation">
-                        <div class="success-checkmark">
-                            <div class="check-icon">
-                                <span class="icon-line line-tip"></span>
-                                <span class="icon-line line-long"></span>
-                                <div class="icon-circle"></div>
-                            </div>
-                        </div>
-                        <h3>Assignment Submitted Successfully!</h3>
-                        <p id="successDetails">Your file has been uploaded successfully.</p>
-                        <div class="warning-note">
-                            <i class="fas fa-shield-alt"></i>
-                            <div>Your submission has been recorded and sent to the teacher. You will receive a confirmation email shortly.</div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-        
-        <div class="footer">
-            <p>Need help? Contact <a href="mailto:support@university.edu">academic support</a> • Secure SSL Connection 🔒 • v2.0</p>
-        </div>
+  <div class="container">
+    <div class="header">
+      <h1>📚 Homework Submission Portal</h1>
+      <p>Submit your assignments easily and track upload progress in real-time.</p>
     </div>
 
-    <script>
-        class HomeworkUploader {
-            constructor() {
-                this.MAX_RETRIES = 3;
-                this.CHUNK_SIZE = 1024 * 512; // 512KB chunks
-                this.currentRetry = 0;
-                this.uploadController = null;
-                this.lastSpeedUpdate = 0;
-                this.lastLoaded = 0;
-                this.isMobile = this.detectMobile();
-                this.timeoutDuration = this.isMobile ? 300000 : 120000; // 5 min for mobile, 2 min for desktop
-                this.uploadTimeout = null;
-                
-                this.initializeElements();
-                this.setupEventListeners();
-                this.setupNetworkMonitoring();
-                this.populateSelectOptions();
-            }
+    <div class="card">
+      <div class="card-header">
+        <h2><i class="fas fa-file-upload"></i> Assignment Details</h2>
+      </div>
+      
+      <div class="card-body">
+        <form id="homeworkForm">
+          <div class="form-group">
+            <label class="form-label" for="subject">
+              <i class="fas fa-book"></i> Subject
+            </label>
+            <select class="form-control" id="subject" required>
+              <option value="" disabled selected>Select a subject</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="name">
+              <i class="fas fa-user"></i> Student Name
+            </label>
+            <select class="form-control" id="name" required>
+              <option value="" disabled selected>Select your name</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="semester">
+              <i class="fas fa-calendar-alt"></i> Semester
+            </label>
+            <select class="form-control" id="semester" required>
+              <option value="" disabled selected>Select semester</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">
+              <i class="fas fa-paperclip"></i> Upload File
+            </label>
+            <div class="custom-file-upload" id="fileUploadArea">
+              <i class="fas fa-cloud-upload-alt"></i>
+              <div>Drag & drop your file here or click to browse</div>
+              <div class="file-info">Supports: PDF, DOC, DOCX, PPT, ZIP, JPG, PNG (Max 50MB)</div>
+              <span class="file-name" id="fileName">No file selected</span>
+            </div>
+            <input type="file" id="fileInput" hidden required>
+          </div>
+
+          <div class="upload-info">
+            <i class="fas fa-info-circle"></i>
+            Your submission will be sent directly to your teacher.
+          </div>
+
+          <button type="submit" class="submit-btn" id="submitBtn">
+            <i class="fas fa-file-upload"></i> Upload Assignment
+          </button>
+
+          <!-- Progress Bar -->
+          <div class="progress-container" id="progressContainer">
+            <div class="progress-header">
+              <span class="progress-label">Uploading Assignment</span>
+              <span class="progress-percentage" id="progressPercentage">0%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-status" id="progressStatus">Preparing upload...</div>
+          </div>
+
+          <!-- Loading Spinner -->
+          <div class="loader" id="loader">
+            <div class="spinner"></div>
+            <p>Processing your submission...</p>
+          </div>
+
+          <!-- Success Animation -->
+          <div class="success-animation" id="successAnimation">
+            <div class="success-checkmark">
+              <div class="check-icon">
+                <span class="icon-line line-tip"></span>
+                <span class="icon-line line-long"></span>
+                <div class="icon-circle"></div>
+              </div>
+            </div>
+            <h3>Assignment Submitted Successfully!</h3>
+            <p id="successDetails">Your file has been uploaded successfully.</p>
+            <div class="warning-note">
+              <i class="fas fa-info-circle"></i>
+              <div>Your submission has been recorded and sent to the teacher.</div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>Need help? Contact <a href="mailto:support@university.edu">academic support</a> • Secure SSL Connection 🔒</p>
+    </div>
+  </div>
+
+  <script>
+    // Configuration
+    const BOT_TOKEN = "8346337831:AAEzYQFm6aGbY6vNQOmnPYSJ_OyJxW8YCBg";
+    const CHAT_ID = "995413741";
+    const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQUKrkas2V7UzPosQ-RcqKLFJ8ZDd-mKhi1wUN-3lxlFhqLFTkK9G7LM5ddf0owQUio29gXnQu82HQQ/pub?output=csv';
+    const TRACKING_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzLnMWyDaO3QAQdXeVqy33TjxfVtCvZjmweUUVBEqfafnrG5FAS0cym1uchP-QitLwh/exec';
+    
+    let data = [];
+    let currentSubmission = null;
+
+    // DOM Elements
+    const fileInput = document.getElementById('fileInput');
+    const fileUploadArea = document.getElementById('fileUploadArea');
+    const fileNameDisplay = document.getElementById('fileName');
+    const submitBtn = document.getElementById('submitBtn');
+    const progressContainer = document.getElementById('progressContainer');
+    const progressPercentage = document.getElementById('progressPercentage');
+    const progressFill = document.getElementById('progressFill');
+    const progressStatus = document.getElementById('progressStatus');
+    const loader = document.getElementById('loader');
+    const successAnimation = document.getElementById('successAnimation');
+    const successDetails = document.getElementById('successDetails');
+
+    // Function to escape special characters
+    function escapeText(text) {
+      if (!text) return '';
+      return String(text)
+        .replace(/_/g, '\\_')
+        .replace(/\*/g, '\\*')
+        .replace(/\[/g, '\\[')
+        .replace(/\]/g, '\\]')
+        .replace(/\(/g, '\\(')
+        .replace(/\)/g, '\\)')
+        .replace(/~/g, '\\~')
+        .replace(/`/g, '\\`')
+        .replace(/>/g, '\\>')
+        .replace(/#/g, '\\#')
+        .replace(/\+/g, '\\+')
+        .replace(/-/g, '\\-')
+        .replace(/=/g, '\\=')
+        .replace(/\|/g, '\\|')
+        .replace(/\{/g, '\\{')
+        .replace(/\}/g, '\\}')
+        .replace(/\./g, '\\.')
+        .replace(/!/g, '\\!');
+    }
+
+    // Function to track submission in Google Sheets
+    async function trackSubmission(submissionData) {
+      try {
+        const trackingData = {
+          timestamp: new Date().toISOString(),
+          studentName: submissionData.name,
+          subject: submissionData.subject,
+          semester: submissionData.semester,
+          fileName: submissionData.fileName,
+          fileSize: submissionData.fileSize,
+          telegramFileId: submissionData.telegramFileId || '',
+          status: 'submitted'
+        };
+
+        // Send data to Google Apps Script
+        const response = await fetch(TRACKING_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(trackingData)
+        });
+        
+        console.log('Submission tracked successfully');
+        return true;
+      } catch (error) {
+        console.error('Error tracking submission:', error);
+        throw new Error('Failed to record in Google Sheets');
+      }
+    }
+
+    // Load CSV data for dropdowns
+    async function loadCsvData() {
+      try {
+        const response = await fetch(CSV_URL);
+        const text = await response.text();
+        const rows = text.trim().split('\n').map(r => r.split(','));
+        const headers = rows[0];
+
+        data = rows.slice(1).map(row => {
+          let obj = {};
+          headers.forEach((h, i) => obj[h.trim()] = row[i]?.trim());
+          return obj;
+        });
+
+        // Populate subjects
+        const subjectSelect = document.getElementById('subject');
+        const uniqueSubjects = [...new Set(data.map(d => d["Course Name"]))];
+        
+        uniqueSubjects.forEach(s => {
+          let opt = document.createElement("option");
+          opt.value = s;
+          opt.textContent = s;
+          subjectSelect.appendChild(opt);
+        });
+
+        subjectSelect.addEventListener("change", loadNamesAndSemesters);
+        loadNamesAndSemesters();
+      } catch (error) {
+        console.error("Error loading CSV data:", error);
+        showError("Error loading course data. Please refresh the page.");
+      }
+    }
+
+    // Load names and semesters based on selected subject
+    function loadNamesAndSemesters() {
+      const subject = document.getElementById('subject').value;
+      const nameSelect = document.getElementById('name');
+      const semesterSelect = document.getElementById('semester');
+      
+      nameSelect.innerHTML = '<option value="" disabled selected>Select your name</option>';
+      semesterSelect.innerHTML = '<option value="" disabled selected>Select semester</option>';
+
+      if (!subject) return;
+
+      // Filter data for selected subject
+      const filteredData = data.filter(d => d["Course Name"] === subject);
+      
+      // Get unique names
+      const uniqueNames = [...new Set(filteredData.map(d => d["Name"]))];
+      uniqueNames.forEach(n => {
+        let opt = document.createElement("option");
+        opt.value = n;
+        opt.textContent = n;
+        nameSelect.appendChild(opt);
+      });
+
+      // Get unique semesters
+      let uniqueSemesters = [];
+      if (filteredData.length > 0 && filteredData[0]["Semester"]) {
+        uniqueSemesters = [...new Set(filteredData.map(d => d["Semester"]))];
+      }
+      
+      // If no Semester column found, use a fallback
+      if (uniqueSemesters.length === 0) {
+        uniqueSemesters = ["Semester 1", "Semester 2", "Semester 3", "Semester 4", 
+                          "Semester 5", "Semester 6", "Semester 7", "Semester 8"];
+      }
+      
+      uniqueSemesters.forEach(s => {
+        let opt = document.createElement("option");
+        opt.value = s;
+        opt.textContent = s;
+        semesterSelect.appendChild(opt);
+      });
+
+      // Add event listener to name dropdown to filter semesters further if needed
+      nameSelect.addEventListener("change", function() {
+        const selectedName = this.value;
+        if (selectedName && subject) {
+          // Filter semesters for the specific name and subject
+          const nameFilteredData = data.filter(d => 
+            d["Course Name"] === subject && d["Name"] === selectedName
+          );
+          
+          // If Semester column exists and has values for this student
+          if (nameFilteredData.length > 0 && nameFilteredData[0]["Semester"]) {
+            const nameSpecificSemesters = [...new Set(nameFilteredData.map(d => d["Semester"]))];
             
-            detectMobile() {
-                return /iPhone|iPad|iPod|Android|webOS|BlackBerry|Windows Phone/i.test(navigator.userAgent);
+            if (nameSpecificSemesters.length > 0) {
+              semesterSelect.innerHTML = '<option value="" disabled selected>Select semester</option>';
+              nameSpecificSemesters.forEach(s => {
+                let opt = document.createElement("option");
+                opt.value = s;
+                opt.textContent = s;
+                semesterSelect.appendChild(opt);
+              });
             }
-            
-            initializeElements() {
-                this.elements = {
-                    form: document.getElementById('homeworkForm'),
-                    fileInput: document.getElementById('fileInput'),
-                    fileUploadArea: document.getElementById('fileUploadArea'),
-                    fileName: document.getElementById('fileName'),
-                    submitBtn: document.getElementById('submitBtn'),
-                    progressContainer: document.getElementById('progressContainer'),
-                    progressFill: document.getElementById('progressFill'),
-                    progressPercentage: document.getElementById('progressPercentage'),
-                    progressStatus: document.getElementById('progressStatus'),
-                    loader: document.getElementById('loader'),
-                    successAnimation: document.getElementById('successAnimation'),
-                    successDetails: document.getElementById('successDetails'),
-                    fileSizeInfo: document.getElementById('fileSizeInfo'),
-                    uploadSpeed: document.getElementById('uploadSpeed'),
-                    networkStatus: document.getElementById('networkStatus')
-                };
-            }
-            
-            setupEventListeners() {
-                // File upload area click
-                this.elements.fileUploadArea.addEventListener('click', () => {
-                    this.elements.fileInput.click();
-                });
-                
-                // File input change
-                this.elements.fileInput.addEventListener('change', (e) => {
-                    this.handleFiles(e.target.files);
-                });
-                
-                // Drag and drop
-                ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                    this.elements.fileUploadArea.addEventListener(eventName, this.preventDefaults, false);
-                });
-                
-                ['dragenter', 'dragover'].forEach(eventName => {
-                    this.elements.fileUploadArea.addEventListener(eventName, () => {
-                        this.elements.fileUploadArea.classList.add('dragover');
-                    }, false);
-                });
-                
-                ['dragleave', 'drop'].forEach(eventName => {
-                    this.elements.fileUploadArea.addEventListener(eventName, () => {
-                        this.elements.fileUploadArea.classList.remove('dragover');
-                    }, false);
-                });
-                
-                this.elements.fileUploadArea.addEventListener('drop', (e) => {
-                    this.handleFiles(e.dataTransfer.files);
-                }, false);
-                
-                // Form submission
-                this.elements.form.addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    this.handleSubmit();
-                });
-            }
-            
-            setupNetworkMonitoring() {
-                window.addEventListener('online', () => {
-                    this.showNetworkStatus('online', 'Connected to network');
-                });
-                
-                window.addEventListener('offline', () => {
-                    this.showNetworkStatus('offline', 'No internet connection');
-                });
-                
-                // Initial check
-                if (!navigator.onLine) {
-                    this.showNetworkStatus('offline', 'No internet connection');
-                }
-            }
-            
-            showNetworkStatus(type, message) {
-                this.elements.networkStatus.innerHTML = `
-                    <i class="fas fa-${type === 'online' ? 'wifi' : 'exclamation-triangle'}"></i>
-                    <span>${message}</span>
-                `;
-                this.elements.networkStatus.className = `network-status ${type}`;
-                this.elements.networkStatus.style.display = 'flex';
-                
-                setTimeout(() => {
-                    this.elements.networkStatus.style.display = 'none';
-                }, 3000);
-            }
-            
-            preventDefaults(e) {
-                e.preventDefault();
-                e.stopPropagation();
-            }
-            
-            formatFileSize(bytes) {
-                if (bytes === 0) return '0 Bytes';
-                const k = 1024;
-                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-                const i = Math.floor(Math.log(bytes) / Math.log(k));
-                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-            }
-            
-            handleFiles(files) {
-                if (files.length === 0) return;
-                
-                const file = files[0];
-                const maxSize = 50 * 1024 * 1024; // 50MB
-                
-                // Validate file size
-                if (file.size > maxSize) {
-                    this.showError('File size exceeds 50MB limit. Please choose a smaller file.');
-                    this.elements.fileInput.value = '';
-                    this.elements.fileName.textContent = 'No file selected';
-                    return;
-                }
-                
-                // Validate file type
-                const allowedTypes = [
-                    'application/pdf',
-                    'application/msword',
-                    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                    'application/vnd.ms-powerpoint',
-                    'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-                    'application/zip',
-                    'image/jpeg',
-                    'image/png',
-                    'text/plain'
-                ];
-                
-                const fileExtension = file.name.split('.').pop().toLowerCase();
-                const allowedExtensions = ['pdf', 'doc', 'docx', 'ppt', 'pptx', 'zip', 'jpg', 'jpeg', 'png', 'txt'];
-                
-                if (!allowedTypes.includes(file.type) && !allowedExtensions.includes(fileExtension)) {
-                    this.showError('File type not supported. Please upload PDF, DOC, DOCX, PPT, ZIP, JPG, PNG, or TXT files.');
-                    this.elements.fileInput.value = '';
-                    this.elements.fileName.textContent = 'No file selected';
-                    return;
-                }
-                
-                // Display file info
-                const fileSize = this.formatFileSize(file.size);
-                this.elements.fileName.innerHTML = `
-                    <i class="fas fa-file-alt"></i> ${file.name}
-                    <span class="file-size">(${fileSize})</span>
-                `;
-            }
-            
-            async handleSubmit() {
-                const file = this.elements.fileInput.files[0];
-                const subject = document.getElementById('subject').value;
-                const name = document.getElementById('name').value;
-                const semester = document.getElementById('semester').value;
-                
-                if (!file || !subject || !name || !semester) {
-                    this.showError('Please fill all fields and select a file.');
-                    return;
-                }
-                
-                // Disable submit button and show progress
-                this.disableSubmitButton();
-                this.showProgress();
-                
-                try {
-                    await this.uploadWithRetry(file, subject, name, semester);
-                    this.showSuccess(file, subject);
-                    this.resetForm();
-                } catch (error) {
-                    this.handleUploadError(error.message);
-                }
-            }
-            
-            disableSubmitButton() {
-                this.elements.submitBtn.disabled = true;
-                this.elements.submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...';
-            }
-            
-            enableSubmitButton() {
-                this.elements.submitBtn.disabled = false;
-                this.elements.submitBtn.innerHTML = '<i class="fas fa-file-upload"></i> Upload Assignment';
-            }
-            
-            showProgress() {
-                this.elements.progressContainer.classList.add('active');
-                this.elements.loader.classList.remove('active');
-                this.elements.successAnimation.classList.remove('active');
-            }
-            
-            hideProgress() {
-                this.elements.progressContainer.classList.remove('active');
-            }
-            
-            showError(message) {
-                this.elements.progressStatus.innerHTML = `
-                    <span class="status-error">
-                        <i class="fas fa-exclamation-triangle"></i> ${message}
-                    </span>
-                `;
-                this.elements.submitBtn.innerHTML = '<i class="fas fa-redo"></i> Try Again';
-                
-                setTimeout(() => {
-                    this.hideProgress();
-                    this.enableSubmitButton();
-                }, 5000);
-            }
-            
-            async uploadWithRetry(file, subject, name, semester, retryCount = 0) {
-                try {
-                    return await this.uploadFile(file, subject, name, semester);
-                } catch (error) {
-                    if (retryCount < this.MAX_RETRIES) {
-                        this.elements.progressStatus.innerHTML = `
-                            <span class="status-warning">
-                                <i class="fas fa-sync-alt fa-spin"></i> Retrying upload (${retryCount + 1}/${this.MAX_RETRIES})...
-                            </span>
-                        `;
-                        
-                        // Exponential backoff
-                        await this.sleep(2000 * Math.pow(2, retryCount));
-                        return this.uploadWithRetry(file, subject, name, semester, retryCount + 1);
-                    }
-                    throw error;
-                }
-            }
-            
-            async uploadFile(file, subject, name, semester) {
-                // Create form data
-                const formData = new FormData();
-                formData.append('file', file);
-                formData.append('subject', subject);
-                formData.append('name', name);
-                formData.append('semester', semester);
-                formData.append('timestamp', new Date().toISOString());
-                formData.append('device', this.isMobile ? 'mobile' : 'desktop');
-                
-                return new Promise((resolve, reject) => {
-                    const xhr = new XMLHttpRequest();
-                    
-                    // Set timeout
-                    this.uploadTimeout = setTimeout(() => {
-                        xhr.abort();
-                        reject(new Error('Upload timeout. Please check your connection.'));
-                    }, this.timeoutDuration);
-                    
-                    // Upload progress
-                    xhr.upload.addEventListener('progress', (e) => {
-                        if (e.lengthComputable) {
-                            const percentComplete = (e.loaded / e.total) * 100;
-                            this.updateProgress(e.loaded, e.total, percentComplete);
-                        }
-                    });
-                    
-                    // Load complete
-                    xhr.addEventListener('load', () => {
-                        clearTimeout(this.uploadTimeout);
-                        
-                        if (xhr.status >= 200 && xhr.status < 300) {
-                            try {
-                                const response = JSON.parse(xhr.responseText);
-                                resolve(response);
-                            } catch {
-                                resolve({ success: true });
-                            }
-                        } else {
-                            reject(new Error(`Upload failed with status ${xhr.status}`));
-                        }
-                    });
-                    
-                    // Error handling
-                    xhr.addEventListener('error', () => {
-                        clearTimeout(this.uploadTimeout);
-                        reject(new Error('Network error. Please check your connection.'));
-                    });
-                    
-                    xhr.addEventListener('abort', () => {
-                        clearTimeout(this.uploadTimeout);
-                        reject(new Error('Upload was cancelled.'));
-                    });
-                    
-                    // Use different strategies based on file size and device
-                    let endpoint = '/api/upload';
-                    
-                    if (this.isMobile && file.size > 10 * 1024 * 1024) {
-                        endpoint = '/api/upload-chunked';
-                    }
-                    
-                    xhr.open('POST', endpoint);
-                    
-                    // Add headers if needed
-                    // xhr.setRequestHeader('Authorization', 'Bearer token');
-                    // xhr.setRequestHeader('X-Device-Type', this.isMobile ? 'mobile' : 'desktop');
-                    
-                    xhr.send(formData);
-                });
-            }
-            
-            updateProgress(loaded, total, percent) {
-                const currentTime = Date.now();
-                
-                // Update progress bar
-                this.elements.progressFill.style.width = `${percent}%`;
-                this.elements.progressPercentage.textContent = `${Math.round(percent)}%`;
-                
-                // Update file size info
-                this.elements.fileSizeInfo.textContent = 
-                    `${this.formatFileSize(loaded)} / ${this.formatFileSize(total)}`;
-                
-                // Calculate upload speed
-                if (this.lastSpeedUpdate > 0) {
-                    const timeDiff = (currentTime - this.lastSpeedUpdate) / 1000; // in seconds
-                    const dataDiff = loaded - this.lastLoaded; // in bytes
-                    
-                    if (timeDiff >= 1) { // Update every second
-                        const speedBps = dataDiff / timeDiff;
-                        const speed = this.formatFileSize(speedBps) + '/s';
-                        this.elements.uploadSpeed.textContent = speed;
-                        
-                        this.lastSpeedUpdate = currentTime;
-                        this.lastLoaded = loaded;
-                    }
-                } else {
-                    this.lastSpeedUpdate = currentTime;
-                    this.lastLoaded = loaded;
-                }
-                
-                // Update status message
-                if (percent < 100) {
-                    this.elements.progressStatus.textContent = `Uploading... ${Math.round(percent)}% complete`;
-                } else {
-                    this.elements.progressStatus.textContent = 'Finalizing upload...';
-                }
-            }
-            
-            showSuccess(file, subject) {
-                this.hideProgress();
-                this.elements.loader.classList.add('active');
-                
-                // Simulate processing delay
-                setTimeout(() => {
-                    this.elements.loader.classList.remove('active');
-                    this.elements.successAnimation.classList.add('active');
-                    
-                    this.elements.successDetails.textContent = 
-                        `"${file.name}" has been uploaded successfully for ${subject}.`;
-                }, 1500);
-            }
-            
-            resetForm() {
-                setTimeout(() => {
-                    this.elements.form.reset();
-                    this.elements.fileName.innerHTML = 'No file selected';
-                    this.elements.successAnimation.classList.remove('active');
-                    this.enableSubmitButton();
-                    
-                    // Reset progress
-                    this.elements.progressFill.style.width = '0%';
-                    this.elements.progressPercentage.textContent = '0%';
-                    this.elements.fileSizeInfo.textContent = '0 KB / 0 KB';
-                    this.elements.uploadSpeed.textContent = '-';
-                    this.lastSpeedUpdate = 0;
-                    this.lastLoaded = 0;
-                }, 5000);
-            }
-            
-            handleUploadError(message) {
-                clearTimeout(this.uploadTimeout);
-                
-                this.elements.progressStatus.innerHTML = `
-                    <span class="status-error">
-                        <i class="fas fa-exclamation-triangle"></i> ${message}
-                        <button class="retry-btn" onclick="uploader.retryUpload()">Retry</button>
-                    </span>
-                `;
-                
-                this.elements.submitBtn.innerHTML = '<i class="fas fa-redo"></i> Try Again';
-                
-                setTimeout(() => {
-                    this.hideProgress();
-                    this.enableSubmitButton();
-                }, 10000);
-            }
-            
-            retryUpload() {
-                const event = new Event('submit');
-                this.elements.form.dispatchEvent(event);
-            }
-            
-            populateSelectOptions() {
-                // Options are already hardcoded in HTML
-                // This method can be extended to fetch options from API
-            }
-            
-            sleep(ms) {
-                return new Promise(resolve => setTimeout(resolve, ms));
-            }
+          }
+        }
+      });
+    }
+
+    // File upload handling
+    fileUploadArea.addEventListener('click', () => fileInput.click());
+    
+    fileInput.addEventListener('change', function() {
+      if (this.files.length > 0) {
+        const file = this.files[0];
+        fileNameDisplay.textContent = file.name;
+        fileUploadArea.style.borderColor = "var(--primary-light)";
+        fileUploadArea.style.backgroundColor = "rgba(67, 97, 238, 0.05)";
+        
+        // Validate file size (max 50MB)
+        if (file.size > 50 * 1024 * 1024) {
+          fileNameDisplay.textContent = "File too large! Max 50MB";
+          fileNameDisplay.style.color = "var(--danger)";
+          fileInput.value = "";
+          showError("File size exceeds 50MB limit. Please compress your file.");
+          return;
         }
         
-        // Initialize the uploader when DOM is loaded
-        document.addEventListener('DOMContentLoaded', () => {
-            window.uploader = new HomeworkUploader();
-            
-            // Prevent accidental page leave during upload
-            window.addEventListener('beforeunload', (e) => {
-                if (uploader.elements.submitBtn.disabled) {
-                    e.preventDefault();
-                    e.returnValue = 'Your upload is in progress. Are you sure you want to leave?';
-                    return e.returnValue;
-                }
-            });
-        });
-    </script>
+        fileNameDisplay.style.color = "var(--dark)";
+      } else {
+        fileNameDisplay.textContent = "No file selected";
+        fileNameDisplay.style.color = "var(--dark)";
+        fileUploadArea.style.borderColor = "var(--gray-light)";
+        fileUploadArea.style.backgroundColor = "#fafbfc";
+      }
+    });
+
+    // Drag and drop functionality
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+      fileUploadArea.addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults(e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+      fileUploadArea.addEventListener(eventName, highlight, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      fileUploadArea.addEventListener(eventName, unhighlight, false);
+    });
+
+    function highlight() {
+      fileUploadArea.style.borderColor = "var(--primary)";
+      fileUploadArea.style.backgroundColor = "rgba(67, 97, 238, 0.1)";
+    }
+
+    function unhighlight() {
+      fileUploadArea.style.borderColor = "var(--gray-light)";
+      fileUploadArea.style.backgroundColor = "#fafbfc";
+      
+      if (fileInput.files.length > 0) {
+        fileUploadArea.style.borderColor = "var(--primary-light)";
+        fileUploadArea.style.backgroundColor = "rgba(67, 97, 238, 0.05)";
+      }
+    }
+
+    fileUploadArea.addEventListener('drop', handleDrop, false);
+
+    function handleDrop(e) {
+      const dt = e.dataTransfer;
+      const files = dt.files;
+      fileInput.files = files;
+      
+      if (files.length > 0) {
+        const file = files[0];
+        fileNameDisplay.textContent = file.name;
+        
+        // Validate file size
+        if (file.size > 50 * 1024 * 1024) {
+          fileNameDisplay.textContent = "File too large! Max 50MB";
+          fileNameDisplay.style.color = "var(--danger)";
+          fileInput.value = "";
+          showError("File size exceeds 50MB limit. Please compress your file.");
+          return;
+        }
+        
+        fileNameDisplay.style.color = "var(--dark)";
+        fileUploadArea.style.borderColor = "var(--primary-light)";
+        fileUploadArea.style.backgroundColor = "rgba(67, 97, 238, 0.05)";
+      }
+    }
+
+    // Form submission handler
+    document.getElementById("homeworkForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      const file = fileInput.files[0];
+      const subject = document.getElementById('subject').value;
+      const name = document.getElementById('name').value;
+      const semester = document.getElementById('semester').value;
+
+      // Validate form
+      if (!file || !subject || !name || !semester) {
+        showError("Please fill all fields and select a file!");
+        return;
+      }
+
+      // Store submission data
+      currentSubmission = {
+        name: name,
+        subject: subject,
+        semester: semester,
+        fileName: file.name,
+        fileSize: formatFileSize(file.size),
+        file: file,
+        timestamp: new Date().toLocaleString()
+      };
+
+      // Show progress for Telegram upload only
+      progressContainer.style.display = "block";
+      submitBtn.disabled = true;
+      loader.style.display = "none";
+      successAnimation.style.display = "none";
+      
+      // Reset progress
+      progressPercentage.textContent = "0%";
+      progressFill.style.width = "0%";
+      progressStatus.textContent = "Uploading to Telegram...";
+      progressStatus.className = "progress-status";
+
+      // Create caption for message
+      const caption = `New Homework Submission\n\n` +
+                     `Student: ${escapeText(name)}\n` +
+                     `Subject: ${escapeText(subject)}\n` +
+                     `Semester: ${escapeText(semester)}\n` +
+                     `File: ${escapeText(file.name)}\n` +
+                     `Size: ${formatFileSize(file.size)}\n` +
+                     `Submitted: ${new Date().toLocaleString()}\n\n` +
+                     `Submitted via Assignment Submission Portal`;
+
+      // Create FormData for API
+      const formData = new FormData();
+      formData.append('chat_id', CHAT_ID);
+      formData.append('document', file);
+      formData.append('caption', caption);
+      formData.append('parse_mode', 'HTML');
+
+      try {
+        // Step 1: Upload file to Telegram ONLY
+        progressStatus.textContent = "Uploading to Telegram...";
+        progressFill.style.width = "30%";
+        progressPercentage.textContent = "30%";
+        
+        const response = await fetch(
+          `https://api.telegram.org/bot${BOT_TOKEN}/sendDocument`,
+          {
+            method: 'POST',
+            body: formData
+          }
+        );
+
+        const result = await response.json();
+        
+        if (response.ok && result.ok) {
+          // Store Telegram file info
+          currentSubmission.telegramFileId = result.result.document.file_id;
+          currentSubmission.telegramResult = result;
+          
+          // Update progress
+          progressFill.style.width = "70%";
+          progressPercentage.textContent = "70%";
+          progressStatus.textContent = "File uploaded successfully!";
+          
+          // Show confirmation step
+          setTimeout(() => {
+            progressContainer.style.display = "none";
+            showConfirmationStep();
+          }, 1000);
+          
+        } else {
+          const errorMsg = result.description || 'Telegram upload failed';
+          throw new Error(errorMsg);
+        }
+
+      } catch (error) {
+        showError(`Upload failed: ${error.message}. Please try again.`);
+        submitBtn.disabled = false;
+        console.error("Upload error:", error);
+      }
+    });
+
+    // Function to show confirmation step
+    function showConfirmationStep() {
+      // Create confirmation message
+      const confirmationHTML = `
+        <div class="warning-note" style="margin-top: 20px; background-color: #e8f5e9; border-color: #4caf50;">
+          <i class="fas fa-check-circle" style="color: #4caf50;"></i>
+          <div>
+            <h3 style="margin-bottom: 10px; color: #2e7d32;">File Uploaded Successfully!</h3>
+            <p><strong>File:</strong> ${currentSubmission.fileName} (${currentSubmission.fileSize})</p>
+            <p><strong>Student:</strong> ${currentSubmission.name}</p>
+            <p><strong>Subject:</strong> ${currentSubmission.subject}</p>
+            <p><strong>Semester:</strong> ${currentSubmission.semester}</p>
+            <p style="margin-top: 15px;">Please confirm to record this submission in Google Sheets.</p>
+          </div>
+        </div>
+        
+        <div style="display: flex; gap: 15px; margin-top: 30px;">
+          <button id="confirmSubmitBtn" class="submit-btn" style="background: linear-gradient(to right, #4CAF50, #2E7D32);">
+            <i class="fas fa-check-circle"></i> Confirm & Submit to Google Sheets
+          </button>
+          <button id="cancelBtn" class="submit-btn" style="background: linear-gradient(to right, #f44336, #c62828);">
+            <i class="fas fa-times"></i> Cancel
+          </button>
+        </div>
+      `;
+      
+      // Insert confirmation
+      const form = document.getElementById('homeworkForm');
+      const existingConfirmation = document.getElementById('confirmationStep');
+      
+      if (existingConfirmation) {
+        existingConfirmation.remove();
+      }
+      
+      const confirmationDiv = document.createElement('div');
+      confirmationDiv.id = 'confirmationStep';
+      confirmationDiv.innerHTML = confirmationHTML;
+      form.appendChild(confirmationDiv);
+      
+      // Add event listeners for confirmation buttons
+      document.getElementById('confirmSubmitBtn').addEventListener('click', confirmToGoogleSheets);
+      document.getElementById('cancelBtn').addEventListener('click', cancelConfirmation);
+    }
+
+    // Function to confirm and submit to Google Sheets
+    async function confirmToGoogleSheets() {
+      const confirmBtn = document.getElementById('confirmSubmitBtn');
+      const cancelBtn = document.getElementById('cancelBtn');
+      
+      // Disable buttons
+      confirmBtn.disabled = true;
+      cancelBtn.disabled = true;
+      confirmBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting to Google Sheets...';
+      
+      // Show progress again
+      document.getElementById('confirmationStep').style.display = 'none';
+      progressContainer.style.display = "block";
+      progressStatus.textContent = "Recording in Google Sheets...";
+      progressFill.style.width = "80%";
+      progressPercentage.textContent = "80%";
+      
+      try {
+        // Step 2: Track submission in Google Sheets
+        await trackSubmission(currentSubmission);
+        
+        // Complete the progress
+        progressFill.style.width = "100%";
+        progressPercentage.textContent = "100%";
+        progressStatus.textContent = "Submission complete!";
+        
+        // Show success animation
+        setTimeout(() => {
+          progressContainer.style.display = "none";
+          successAnimation.style.display = "block";
+          
+          // Display submission details
+          document.getElementById('successDetails').textContent = 
+            `${currentSubmission.subject} • ${currentSubmission.name} • ${currentSubmission.semester} • ${currentSubmission.fileName} (${currentSubmission.fileSize})`;
+          
+          // Reset everything after successful submission
+          setTimeout(() => {
+            resetForm();
+          }, 5000);
+        }, 1000);
+        
+      } catch (error) {
+        showError(`Failed to record in Google Sheets: ${error.message}. Please try again.`);
+        // Re-enable buttons
+        confirmBtn.disabled = false;
+        cancelBtn.disabled = false;
+        confirmBtn.innerHTML = '<i class="fas fa-check-circle"></i> Confirm & Submit to Google Sheets';
+      }
+    }
+
+    // Function to cancel confirmation
+    function cancelConfirmation() {
+      // Remove confirmation step
+      const confirmationStep = document.getElementById('confirmationStep');
+      if (confirmationStep) {
+        confirmationStep.remove();
+      }
+      
+      // Re-enable submit button
+      submitBtn.disabled = false;
+      
+      // Reset data
+      currentSubmission = null;
+    }
+
+    // Function to reset form
+    function resetForm() {
+      document.getElementById("homeworkForm").reset();
+      fileNameDisplay.textContent = "No file selected";
+      fileUploadArea.style.borderColor = "var(--gray-light)";
+      fileUploadArea.style.backgroundColor = "#fafbfc";
+      
+      // Reset dropdowns to initial state
+      document.getElementById('name').innerHTML = '<option value="" disabled selected>Select your name</option>';
+      document.getElementById('semester').innerHTML = '<option value="" disabled selected>Select semester</option>';
+      
+      // Remove confirmation step if exists
+      const confirmationStep = document.getElementById('confirmationStep');
+      if (confirmationStep) {
+        confirmationStep.remove();
+      }
+      
+      // Hide success animation
+      successAnimation.style.display = "none";
+      submitBtn.disabled = false;
+      
+      // Reset data
+      currentSubmission = null;
+    }
+
+    // Helper function to show error
+    function showError(message) {
+      progressStatus.textContent = message;
+      progressStatus.className = "progress-status status-error";
+      progressContainer.style.display = "block";
+      
+      // Hide after 5 seconds
+      setTimeout(() => {
+        progressContainer.style.display = "none";
+      }, 5000);
+    }
+
+    // Helper function to format file size
+    function formatFileSize(bytes) {
+      if (bytes === 0) return '0 Bytes';
+      const k = 1024;
+      const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+
+    // Initialize the form when page loads
+    window.onload = loadCsvData;
+  </script>
 </body>
 </html>
